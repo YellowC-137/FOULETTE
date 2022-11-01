@@ -4,26 +4,31 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import androidx.core.location.LocationManagerCompat.getCurrentLocation
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.example.foulette.R
 import com.example.foulette.databinding.FragmentMainBinding
+import com.example.foulette.domain.models.RestaurantResult
 import com.example.foulette.ui.base.BaseFragment
 import com.example.foulette.util.REQUEST_CODE
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.material.snackbar.Snackbar
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.annotations.AfterPermissionGranted
+import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
+@AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
-    private val viewModel = MainViewModel()
+    private val viewModel: MainViewModel by viewModels()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         initView()
-        requiresPermission()
         //collectFlow()
 
     }
@@ -31,7 +36,17 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private fun initView() {
         binding.apply {
             btnSearchFromMylocation.setOnClickListener {
-                //getMyLocation()
+                val foulettePick: RestaurantResult = RestaurantResult(
+                    id = 0,
+                    name = "",
+                    type = "",
+                    latitude = 0.0,
+                    longitude = 0.0,
+                    rate = 0.0,
+                    ImgUrl = ""
+                )
+                requiresPermission() //TODO 권한 수정
+                // 현재 위치 받아오기 -> 음식점 검색 -> 추리기 및 애니매이션 -> 넘기기
                 //startSearch()
                 val toMap = MainFragmentDirections.actionMainFragmentToMapFragment()
                 requireView().findNavController().navigate(toMap)
@@ -41,7 +56,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 requireView().findNavController().navigate(toHistory)
             }
             fabSetting.setOnClickListener {
-                startSettingDialog()
+                //startSettingDialog()
+                requiresPermission()
             }
         }
     }
@@ -73,9 +89,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     @SuppressLint("MissingPermission")
     private fun getMyLocation() {
         fusedLocationClient.lastLocation.addOnSuccessListener {
-            Snackbar.make(binding.root,"myLoc : ${it.latitude} ,${it.longitude}",1).show()
+            val latlng : String = it.latitude.toString()+","+it.longitude.toString()
+            viewModel.getRestaurant(latlng)
+            Timber.e("myLoc : $latlng")
         }
-
     }
 
     private fun startSettingDialog() {

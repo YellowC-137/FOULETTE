@@ -1,5 +1,8 @@
-package com.example.foulette.data.remote
+package com.example.foulette.data.remote.response
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Result(
     val business_status: String,
     val geometry: Geometry,
