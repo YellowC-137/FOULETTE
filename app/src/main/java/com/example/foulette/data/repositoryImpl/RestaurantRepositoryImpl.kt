@@ -33,23 +33,21 @@ class RestaurantRepositoryImpl @Inject constructor(
                 }
             }
 
-
             //TODO  받아올때 모두 받아올지 여기서 random으로 받아올지, 일단은 모두 받아오기
             for (food in restaurantList) {
                 launch {
-
                     val temp = RestaurantResult(
-                        id = food.place_id.length,
+                        id = food.place_id?.length,
                         name = food.name,
-                        type = food.types[0],
-                        latitude = food.geometry.location.lat,
-                        longitude = food.geometry.location.lng,
+                        type = food.types?.get(0),
+                        latitude = food.geometry?.location?.lat,
+                        longitude = food.geometry?.location?.lng,
                         rate = food.rating,
                         ImgUrl = food.icon
                     )
                     result.add(temp)
-                    Timber.d("가게 이름 :" + food.name)
                 }
+
             }
         }
         return result

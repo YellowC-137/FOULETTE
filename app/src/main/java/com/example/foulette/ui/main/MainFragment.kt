@@ -91,7 +91,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         fusedLocationClient.lastLocation.addOnSuccessListener {
             val latlng : String = it.latitude.toString()+","+it.longitude.toString()
             viewModel.getRestaurant(latlng)
-            Timber.e("myLoc : $latlng")
         }
     }
 

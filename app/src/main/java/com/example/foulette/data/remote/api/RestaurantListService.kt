@@ -12,10 +12,11 @@ interface RestaurantListService {
     suspend fun getRestaurantList(
         @Query("location") location: String,
         @Query("key") key: String = MAPS_API_KEY,
-        @Query("type") type:String = "food", //TODO 변경?
+        @Query("type") type:String = "food",
         @Query("radius") radius: Int = 1000,
         @Query("opennow") opennow: Boolean = true,
-        @Query("language") language: String = "ko"
+        @Query("language") language: String = "ko",
+        @Query("keyword") keyword:String = "restaurant"
     ): Response<RestaurantListResultResponse>
 
 }
