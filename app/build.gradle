@@ -100,5 +100,8 @@ dependencies {
     //EasyPermissions
     implementation 'com.vmadalin:easypermissions-ktx:1.0.0'
 
+    //LuckyWheel
+    implementation 'com.github.mmoamenn:LuckyWheel_Android:0.3.0'
+
 
 }

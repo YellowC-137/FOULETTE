@@ -5,6 +5,9 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import com.example.foulette.R
 import com.example.foulette.databinding.FragmentMainBinding
@@ -13,10 +16,11 @@ import com.example.foulette.ui.base.BaseFragment
 import com.example.foulette.util.REQUEST_CODE
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.model.LatLng
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.annotations.AfterPermissionGranted
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import okhttp3.internal.wait
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -27,29 +31,15 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-
         initView()
-        //collectFlow()
-
+        requiresPermission()
     }
 
     private fun initView() {
         binding.apply {
             btnSearchFromMylocation.setOnClickListener {
-                val foulettePick: RestaurantResult = RestaurantResult(
-                    id = 0,
-                    name = "",
-                    type = "",
-                    latitude = 0.0,
-                    longitude = 0.0,
-                    rate = 0.0,
-                    ImgUrl = ""
-                )
-                requiresPermission() //TODO 권한 수정
                 // 현재 위치 받아오기 -> 음식점 검색 -> 추리기 및 애니매이션 -> 넘기기
-                //startSearch()
-                val toMap = MainFragmentDirections.actionMainFragmentToMapFragment()
-                requireView().findNavController().navigate(toMap)
+                getMyLocation()
             }
             fabHistory.setOnClickListener {
                 val toHistory = MainFragmentDirections.actionMainFragmentToHistoryFragment()
@@ -57,7 +47,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             }
             fabSetting.setOnClickListener {
                 //startSettingDialog()
-                requiresPermission()
+                playRoulette()
             }
         }
     }
@@ -75,7 +65,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_WIFI_STATE
             )
         ) {
-            getMyLocation()
         } else {
             EasyPermissions.requestPermissions(
                 host = this,
@@ -88,23 +77,27 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     @SuppressLint("MissingPermission")
     private fun getMyLocation() {
-        fusedLocationClient.lastLocation.addOnSuccessListener {
-            val latlng : String = it.latitude.toString()+","+it.longitude.toString()
-            viewModel.getRestaurant(latlng)
-        }
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    fusedLocationClient.lastLocation.addOnSuccessListener {
+                        val latlng: String = it.latitude.toString() + "," + it.longitude.toString()
+                        viewModel.getRestaurant(latlng)
+                    }
+                }
+            }
+
+
     }
 
-    private fun startSettingDialog() {
-        TODO("Not yet implemented")
+    private fun playRoulette() {
+        RouletteDialog().show(
+            requireActivity().supportFragmentManager,
+            "RouletteDialog"
+        )
+        /*val toMap = MainFragmentDirections.actionMainFragmentToMapFragment()
+                requireView().findNavController().navigate(toMap)
+        * */
     }
-
-    private fun startSearch() {
-        TODO("Not yet implemented")
-    }
-
-    private fun setLocation() {
-        TODO("Not yet implemented")
-    }
-
 
 }
