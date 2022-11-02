@@ -33,7 +33,6 @@ class RestaurantRepositoryImpl @Inject constructor(
                 }
             }
 
-            //TODO  받아올때 모두 받아올지 여기서 random으로 받아올지, 일단은 모두 받아오기
             for (food in restaurantList) {
                 launch {
                     val temp = RestaurantResult(

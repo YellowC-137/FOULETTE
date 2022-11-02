@@ -22,6 +22,7 @@ import com.example.foulette.ui.base.BaseDialog
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.security.SecureRandom
 import kotlin.random.Random
 
 class RouletteDialog() : BaseDialog<DialogRouletteBinding>(R.layout.dialog_roulette) {
@@ -65,8 +66,8 @@ class RouletteDialog() : BaseDialog<DialogRouletteBinding>(R.layout.dialog_roule
             setCanceledOnTouchOutside(true)
         }
         binding.apply {
-            //TODO wheelItems,Random 수정
-            val random = Random(wheelItems.size).nextInt(10)
+            //TODO wheelItems 수정 , UI 수정
+            val random = SecureRandom().nextInt(wheelItems.size+1)
             roulette.addWheelItems(wheelItems)
             btnRoulette.setOnClickListener {
                 roulette.rotateWheelTo(random)

@@ -11,7 +11,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import com.example.foulette.R
 import com.example.foulette.databinding.FragmentMainBinding
-import com.example.foulette.domain.models.RestaurantResult
 import com.example.foulette.ui.base.BaseFragment
 import com.example.foulette.util.REQUEST_CODE
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -20,8 +19,6 @@ import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.annotations.AfterPermissionGranted
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import okhttp3.internal.wait
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
@@ -34,12 +31,15 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         initView()
         requiresPermission()
     }
+    //TODO api call 수정
 
     private fun initView() {
         binding.apply {
             btnSearchFromMylocation.setOnClickListener {
-                // 현재 위치 받아오기 -> 음식점 검색 -> 추리기 및 애니매이션 -> 넘기기
-                getMyLocation()
+                //getMyLocation()
+                val toMap = MainFragmentDirections.actionMainFragmentToMapFragment()
+                requireView().findNavController().navigate(toMap)
+
             }
             fabHistory.setOnClickListener {
                 val toHistory = MainFragmentDirections.actionMainFragmentToHistoryFragment()
@@ -77,15 +77,15 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     @SuppressLint("MissingPermission")
     private fun getMyLocation() {
-
+        fusedLocationClient.lastLocation.addOnSuccessListener {
+            val latlng: String = it.latitude.toString() + "," + it.longitude.toString()
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    fusedLocationClient.lastLocation.addOnSuccessListener {
-                        val latlng: String = it.latitude.toString() + "," + it.longitude.toString()
-                        viewModel.getRestaurant(latlng)
-                    }
+                    viewModel.getRestaurant(latlng)
                 }
             }
+
+        }
 
 
     }
@@ -95,9 +95,17 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             requireActivity().supportFragmentManager,
             "RouletteDialog"
         )
-        /*val toMap = MainFragmentDirections.actionMainFragmentToMapFragment()
-                requireView().findNavController().navigate(toMap)
-        * */
+
     }
+
+    /*override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+    */
 
 }
