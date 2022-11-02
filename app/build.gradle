@@ -103,5 +103,9 @@ dependencies {
     //LuckyWheel
     implementation 'com.github.mmoamenn:LuckyWheel_Android:0.3.0'
 
+    //KakaoMap
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation files('libs/libDaumMapAndroid.jar')
+
 
 }

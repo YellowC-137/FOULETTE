@@ -1,9 +1,9 @@
-package com.example.foulette.data.remote.response
+package com.example.foulette.data.remote.response.places
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Location(
+data class Southwest(
     val lat: Double,
     val lng: Double
 )

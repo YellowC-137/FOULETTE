@@ -1,15 +1,14 @@
 package com.example.foulette.data.repositoryImpl
 
 import com.example.foulette.data.remote.datasource.RestaurantRemoteDataSource
+import com.example.foulette.data.remote.response.places.Result
 import com.example.foulette.di.DispatcherModule
 import com.example.foulette.domain.models.RestaurantResult
 import com.example.foulette.domain.repositories.RestaurantRepository
-import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 
 class RestaurantRepositoryImpl @Inject constructor(
@@ -22,7 +21,7 @@ class RestaurantRepositoryImpl @Inject constructor(
             val responseListJob = async {
                 restaurantRemoteDataSource.getRestaurantList(myLoc)
             }
-            val restaurantList: List<com.example.foulette.data.remote.response.Result>
+            val restaurantList: List<Result>
 
             when (val responseRestaurantList = responseListJob.await()) {
                 is com.example.foulette.domain.models.Result.Success -> {

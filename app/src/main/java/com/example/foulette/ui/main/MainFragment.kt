@@ -38,7 +38,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             btnSearchFromMylocation.setOnClickListener {
                 //getMyLocation()
                 val toMap = MainFragmentDirections.actionMainFragmentToMapFragment()
-                requireView().findNavController().navigate(toMap)
+                val toKakao = MainFragmentDirections.actionMainFragmentToKakaoMapFragment()
+                requireView().findNavController().navigate(toKakao)
 
             }
             fabHistory.setOnClickListener {

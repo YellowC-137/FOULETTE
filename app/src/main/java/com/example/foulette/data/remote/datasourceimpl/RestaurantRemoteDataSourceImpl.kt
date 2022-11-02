@@ -2,8 +2,7 @@ package com.example.foulette.data.remote.datasourceimpl
 
 import com.example.foulette.data.remote.api.RestaurantListService
 import com.example.foulette.data.remote.datasource.RestaurantRemoteDataSource
-import com.example.foulette.data.remote.response.RestaurantListResultResponse
-import com.google.android.gms.maps.model.LatLng
+import com.example.foulette.data.remote.response.places.RestaurantListResultResponse
 import javax.inject.Inject
 import com.example.foulette.domain.models.Result
 

@@ -1,11 +1,19 @@
 package com.example.foulette.ui
 
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.example.foulette.R
 import com.example.foulette.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -25,5 +33,6 @@ class MainActivity : AppCompatActivity() {
 
         navController.setGraph(R.navigation.main_navigation)
     }
+
 
 }

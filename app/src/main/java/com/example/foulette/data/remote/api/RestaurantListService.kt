@@ -1,7 +1,7 @@
 package com.example.foulette.data.remote.api
 
 import com.example.foulette.BuildConfig.MAPS_API_KEY
-import com.example.foulette.data.remote.response.RestaurantListResultResponse
+import com.example.foulette.data.remote.response.places.RestaurantListResultResponse
 import retrofit2.http.GET
 import com.example.foulette.util.SEARCH_NEARBY
 import retrofit2.Response
