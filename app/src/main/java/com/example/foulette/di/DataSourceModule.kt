@@ -1,7 +1,7 @@
 package com.example.foulette.di
 
-import com.example.foulette.data.remote.datasource.RestaurantRemoteDataSource
-import com.example.foulette.data.remote.datasourceimpl.RestaurantRemoteDataSourceImpl
+import com.example.foulette.data.remote.datasource.RemoteDataSource
+import com.example.foulette.data.remote.datasourceimpl.RemoteDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,6 +16,7 @@ abstract class DataSourceModule {
     @Binds
     @Singleton
     abstract fun bindRemoteDataSource(
-        RemoteDataSourceImpl: RestaurantRemoteDataSourceImpl,
-    ): RestaurantRemoteDataSource
+        RemoteDataSourceImpl: RemoteDataSourceImpl,
+    ): RemoteDataSource
+
 }

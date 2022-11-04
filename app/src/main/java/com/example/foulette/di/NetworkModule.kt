@@ -1,8 +1,12 @@
 package com.example.foulette.di
 
 import com.example.foulette.BuildConfig
+import com.example.foulette.data.remote.api.KakaoCategorySearchService
 import com.example.foulette.data.remote.api.RestaurantListService
+import com.example.foulette.data.remote.api.TmapRouteService
+import com.example.foulette.util.KAKAO_SEARCH_CATEGORY
 import com.example.foulette.util.SEARCH_NEARBY
+import com.example.foulette.util.TMAP_ROUTE
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -27,14 +31,24 @@ object NetworkModule {
         ignoreUnknownKeys = true
         coerceInputValues = true
     }
+
     //Retrofit
     @Qualifier
     @Retention(AnnotationRetention.RUNTIME)
-    annotation class RestaurantRetrofit
+    annotation class GoogleMapsRetrofit
+
+    @Qualifier
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class KakaoRetrofit
+
+    @Qualifier
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class TmapRetrofit
+
 
     @Provides
     @Singleton
-    @RestaurantRetrofit
+    @GoogleMapsRetrofit
     fun provideRetrofit(
         okHttpClient: OkHttpClient,
         converterFactory: Converter.Factory,
@@ -46,13 +60,57 @@ object NetworkModule {
             .build()
     }
 
+    @Provides
+    @Singleton
+    @KakaoRetrofit
+    fun provideKakaoRetrofit(
+        okHttpClient: OkHttpClient,
+        converterFactory: Converter.Factory,
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(KAKAO_SEARCH_CATEGORY)
+            .client(okHttpClient)
+            .addConverterFactory(converterFactory)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @TmapRetrofit
+    fun provideTmapRetrofit(
+        okHttpClient: OkHttpClient,
+        converterFactory: Converter.Factory,
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(TMAP_ROUTE)
+            .client(okHttpClient)
+            .addConverterFactory(converterFactory)
+            .build()
+    }
+
     //Api
     @Provides
     @Singleton
     fun provideApiService(
-        @RestaurantRetrofit retrofit: Retrofit,
+        @GoogleMapsRetrofit retrofit: Retrofit,
     ): RestaurantListService {
         return retrofit.create(RestaurantListService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideKakaoApiService(
+        @KakaoRetrofit retrofit: Retrofit,
+    ): KakaoCategorySearchService {
+        return retrofit.create(KakaoCategorySearchService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTmapApiService(
+        @TmapRetrofit retrofit: Retrofit,
+    ): TmapRouteService {
+        return retrofit.create(TmapRouteService::class.java)
     }
 
     //HttpClient

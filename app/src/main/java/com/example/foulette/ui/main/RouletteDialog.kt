@@ -69,9 +69,6 @@ class RouletteDialog() : BaseDialog<DialogRouletteBinding>(R.layout.dialog_roule
             //TODO wheelItems 수정 , UI 수정
             val random = SecureRandom().nextInt(wheelItems.size+1)
             roulette.addWheelItems(wheelItems)
-            btnRoulette.setOnClickListener {
-                roulette.rotateWheelTo(random)
-            }
             roulette.setLuckyWheelReachTheTarget {
                 val rouletteResult = wheelItems[random].text
                 Snackbar.make(
@@ -80,8 +77,7 @@ class RouletteDialog() : BaseDialog<DialogRouletteBinding>(R.layout.dialog_roule
                     Snackbar.LENGTH_LONG
                 ).show()
             }
-
-
+            roulette.rotateWheelTo(random)
         }
     }
 

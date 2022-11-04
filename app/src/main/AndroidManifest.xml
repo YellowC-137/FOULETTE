@@ -27,6 +27,14 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="${KAKAO_API_KEY}" />
 
+        <meta-data
+            android:name="tmap_AppKey"
+            android:value="${TMAP_API}" />
+
+        <meta-data
+            android:name="tmap_APPSecretKey"
+            android:value="${TMAP_API_SECRET}" />
+
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"

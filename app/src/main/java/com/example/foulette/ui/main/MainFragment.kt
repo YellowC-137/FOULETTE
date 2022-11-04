@@ -19,37 +19,54 @@ import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.annotations.AfterPermissionGranted
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var flag = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         initView()
         requiresPermission()
     }
-    //TODO api call 수정
+
+    //TODO api call 수정, 권한 수정
 
     private fun initView() {
         binding.apply {
             btnSearchFromMylocation.setOnClickListener {
-                //getMyLocation()
-                val toMap = MainFragmentDirections.actionMainFragmentToMapFragment()
-                val toKakao = MainFragmentDirections.actionMainFragmentToKakaoMapFragment()
-                requireView().findNavController().navigate(toKakao)
+                getMyLocation()
+                //val toMap = MainFragmentDirections.actionMainFragmentToMapFragment()
+                //requireView().findNavController().navigate(toMap)
 
             }
             fabHistory.setOnClickListener {
-                val toHistory = MainFragmentDirections.actionMainFragmentToHistoryFragment()
-                requireView().findNavController().navigate(toHistory)
+                //val toHistory = MainFragmentDirections.actionMainFragmentToHistoryFragment()
+                //requireView().findNavController().navigate(toHistory)
+                test()
             }
             fabSetting.setOnClickListener {
                 //startSettingDialog()
                 playRoulette()
             }
+        }
+    }
+
+    private fun test() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.restaurantList.collect { goal ->
+                    Timber.e("${goal[0].name}")
+                    val toMap = MainFragmentDirections.actionMainFragmentToMapFragment()
+                    requireView().findNavController().navigate(toMap)
+                }
+            }
+
         }
     }
 
@@ -71,7 +88,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 host = this,
                 rationale = "PERMISSIONS",
                 requestCode = REQUEST_CODE,
-                perms = *perms
+                perms = perms
             )
         }
     }
@@ -85,18 +102,15 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                     viewModel.getRestaurant(latlng)
                 }
             }
-
         }
-
-
     }
+
 
     private fun playRoulette() {
         RouletteDialog().show(
             requireActivity().supportFragmentManager,
             "RouletteDialog"
         )
-
     }
 
     /*override fun onRequestPermissionsResult(
