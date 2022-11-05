@@ -1,10 +1,8 @@
 package com.example.foulette.di
 
 import com.example.foulette.BuildConfig
-import com.example.foulette.data.remote.api.KakaoCategorySearchService
 import com.example.foulette.data.remote.api.RestaurantListService
 import com.example.foulette.data.remote.api.TmapRouteService
-import com.example.foulette.util.KAKAO_SEARCH_CATEGORY
 import com.example.foulette.util.SEARCH_NEARBY
 import com.example.foulette.util.TMAP_ROUTE
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -39,10 +37,6 @@ object NetworkModule {
 
     @Qualifier
     @Retention(AnnotationRetention.RUNTIME)
-    annotation class KakaoRetrofit
-
-    @Qualifier
-    @Retention(AnnotationRetention.RUNTIME)
     annotation class TmapRetrofit
 
 
@@ -55,20 +49,6 @@ object NetworkModule {
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(SEARCH_NEARBY)
-            .client(okHttpClient)
-            .addConverterFactory(converterFactory)
-            .build()
-    }
-
-    @Provides
-    @Singleton
-    @KakaoRetrofit
-    fun provideKakaoRetrofit(
-        okHttpClient: OkHttpClient,
-        converterFactory: Converter.Factory,
-    ): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(KAKAO_SEARCH_CATEGORY)
             .client(okHttpClient)
             .addConverterFactory(converterFactory)
             .build()
@@ -95,14 +75,6 @@ object NetworkModule {
         @GoogleMapsRetrofit retrofit: Retrofit,
     ): RestaurantListService {
         return retrofit.create(RestaurantListService::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideKakaoApiService(
-        @KakaoRetrofit retrofit: Retrofit,
-    ): KakaoCategorySearchService {
-        return retrofit.create(KakaoCategorySearchService::class.java)
     }
 
     @Provides

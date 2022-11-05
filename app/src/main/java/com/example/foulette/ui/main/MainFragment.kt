@@ -19,13 +19,11 @@ import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.annotations.AfterPermissionGranted
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private var flag = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,7 +33,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         requiresPermission()
     }
 
-    //TODO api call 수정, 권한 수정
+    //TODO api call 수정, 권한 수정 ,Flow
 
     private fun initView() {
         binding.apply {
@@ -61,7 +59,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.restaurantList.collect { goal ->
-                    Timber.e("${goal[0].name}")
+                    //Timber.e("${goal[0].name}")
                     val toMap = MainFragmentDirections.actionMainFragmentToMapFragment()
                     requireView().findNavController().navigate(toMap)
                 }

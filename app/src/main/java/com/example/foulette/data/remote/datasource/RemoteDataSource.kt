@@ -8,16 +8,12 @@ import com.example.foulette.domain.models.Result
 interface RemoteDataSource {
     suspend fun getRestaurantList(myLoc: String): Result<RestaurantListResultResponse>
 
-    suspend fun getKakaoCategoryList(
-        latitude: String,
-        longtitude: String
-    ): Result<KakaoSearchResultResponse>
-
     suspend fun getTmapRoute(
         startX: Double,
         startY: Double,
         endX: Double,
         endY: Double,
+        startName: String,
         endName: String
     ): com.example.foulette.domain.models.Result<TmapRouteResultResponse>
 }

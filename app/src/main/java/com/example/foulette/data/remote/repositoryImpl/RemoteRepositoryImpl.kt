@@ -1,13 +1,9 @@
-package com.example.foulette.data.repositoryImpl
+package com.example.foulette.data.remote.repositoryImpl
 
 import com.example.foulette.data.remote.datasource.RemoteDataSource
-import com.example.foulette.data.remote.response.kakaoplaces.Document
 import com.example.foulette.data.remote.response.places.Result
 import com.example.foulette.data.remote.response.tmap.Feature
-import com.example.foulette.data.remote.response.tmap.Geometry
-import com.example.foulette.data.remote.response.tmap.TmapRouteResultResponse
 import com.example.foulette.di.DispatcherModule
-import com.example.foulette.domain.models.KakaoResult
 import com.example.foulette.domain.models.RestaurantResult
 import com.example.foulette.domain.models.TmapRouteResult
 import com.example.foulette.domain.repositories.RestaurantRepository
@@ -15,6 +11,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class RemoteRepositoryImpl @Inject constructor(
@@ -57,59 +54,19 @@ class RemoteRepositoryImpl @Inject constructor(
         return result
     }
 
-    override suspend fun getKakaoCategoryList(
-        latitude: String,
-        longitude: String
-    ): List<KakaoResult> {
-        val result = ArrayList<KakaoResult>()
-        withContext(dispatcherIO) {
-            val responseListJob = async {
-                remoteDataSource.getKakaoCategoryList(latitude, longitude)
-            }
-            val searchedList: List<Document>
-
-            when (val responseList = responseListJob.await()) {
-                is com.example.foulette.domain.models.Result.Success -> {
-                    searchedList = responseList.data.documents
-                }
-                is com.example.foulette.domain.models.Result.Error -> {
-                    return@withContext
-                }
-            }
-
-            for (food in searchedList) {
-                launch {
-                    val temp = KakaoResult(
-                        id = food.id,
-                        x = food.x,
-                        y = food.y,
-                        distance = food.distance,
-                        address_name = food.address_name,
-                        category_name = food.category_name,
-                        phone = food.phone,
-                        place_name = food.place_name,
-                        place_url = food.place_url,
-                        road_address_name = food.road_address_name
-                    )
-                    result.add(temp)
-                }
-
-            }
-        }
-        return result
-    }
 
     override suspend fun getTmapRoute(
         startX: Double,
         startY: Double,
         endX: Double,
         endY: Double,
+        startName: String,
         endName: String
     ): List<TmapRouteResult> {
         val result = ArrayList<TmapRouteResult>()
         withContext(dispatcherIO) {
             val responseListJob = async {
-                remoteDataSource.getTmapRoute(startX, startY, endX, endY, endName)
+                remoteDataSource.getTmapRoute(startX, startY, endX, endY, startName, endName)
             }
             val routeList: List<Feature>
 
@@ -122,9 +79,10 @@ class RemoteRepositoryImpl @Inject constructor(
                 }
             }
 
-            for (roads in routeList){
-                val temp = TmapRouteResult(roads.geometry.coordinates[0],roads.geometry.coordinates[1])
-                result.add(temp)
+            for (roads in routeList) {
+                if (roads.type == "LineString") {
+                    Timber.e(roads.geometry.type)
+                }
             }
         }
 
@@ -132,3 +90,5 @@ class RemoteRepositoryImpl @Inject constructor(
     }
 
 }
+
+//coor = [ [a,b] , [c,d]   ]

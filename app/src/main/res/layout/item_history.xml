@@ -1,77 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:background="@drawable/shape_round_box">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/iv_restaurant"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_launcher_foreground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-    <TextView
-        android:textStyle="bold|italic"
-        android:textSize="16sp"
-        android:textColor="@color/teal_200"
-        android:id="@+id/tv_restaurant_name"
-        android:layout_width="wrap_content"
+        <variable
+            name="history"
+            type="com.example.foulette.domain.models.HistoryResult" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/history_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="가게이름"
-        app:layout_constraintStart_toEndOf="@id/iv_restaurant"
-        app:layout_constraintTop_toTopOf="parent" />
-    <TextView
-        android:id="@+id/tv_restaurant_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="음식점 종류"
-        app:layout_constraintStart_toEndOf="@id/iv_restaurant"
-        app:layout_constraintTop_toBottomOf="@id/tv_restaurant_name" />
+        android:layout_margin="8dp"
+        android:background="@drawable/shape_round_box">
 
-    <TextView
-        android:id="@+id/tv_restaurant_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="위치"
-        app:layout_constraintStart_toEndOf="@id/iv_restaurant"
-        app:layout_constraintTop_toBottomOf="@id/tv_restaurant_type" />
+        <ImageView
+            android:id="@+id/iv_restaurant"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_launcher_foreground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_restaurant_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@{history.restaurantName}"
+            android:textColor="@color/teal_200"
+            android:textSize="16sp"
+            android:textStyle="bold|italic"
+            app:layout_constraintStart_toEndOf="@id/iv_restaurant"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_restaurant_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@{history.restaurantAddress}"
+            app:layout_constraintStart_toEndOf="@id/iv_restaurant"
+            app:layout_constraintTop_toBottomOf="@id/tv_restaurant_name" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@{history.date}"
+            app:layout_constraintBottom_toBottomOf="@id/iv_restaurant"
+            app:layout_constraintStart_toEndOf="@id/iv_restaurant" />
+
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="16dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_baseline_delete_forever_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-    <ImageView
-        android:id="@+id/iv_rate"
-        android:layout_width="14dp"
-        android:layout_height="14dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/ic_baseline_star_rate_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/iv_restaurant"
-        app:layout_constraintTop_toBottomOf="@id/tv_restaurant_type" />
-
-    <TextView
-        android:textColor="@color/black"
-        android:id="@+id/tv_rate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="5.0"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/iv_rate"
-        app:layout_constraintTop_toBottomOf="@id/tv_restaurant_type" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

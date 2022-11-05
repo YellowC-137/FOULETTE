@@ -27,6 +27,7 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.apache.commons.lang3.ObjectUtils.Null
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -67,21 +68,33 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map),
                 )
             )
             val start = "${it.latitude},${it.longitude}"
-            viewModel.getRoute(it.latitude, it.longitude, 37.56668, 126.97842,"목적지")
+            viewModel.getRoute(it.longitude, it.latitude, 127.054154, 37.448604, "출발지", "도착지")
+            //x,y가 반대임 , x:127~ y:37~
+
+//response가 리스트가 아닌 데이터 그자체? , 타입이 점일때와 선일때가 달라서 그렇다!
 
 
-
+            /*kotlinx.serialization.json.internal.JsonDecodingException: Unexpected JSON token at offset 132: Expected start of the array '[', but had '[' instead
+                 JSON input: ....."Point",       "coordinates": [127.05670593180979,37.4554606
+            * */
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.routeList.collect {
                         val polylineOptions = PolylineOptions()
                         for (roads in it) {
+                            if (it is Null) {
+                                Timber.e("XXXXXXX")
+                            } else {
+                                Timber.e(roads.pointX + "," + roads.pointY)
+                            }
                             //polylineOptions.add(LatLng(roads.pointX.toDouble(), roads.pointY.toDouble()))
-                            Timber.e(roads.pointX+","+roads.pointY)
+
                         }
                     }
                 }
             }
+
+
         }
 
 

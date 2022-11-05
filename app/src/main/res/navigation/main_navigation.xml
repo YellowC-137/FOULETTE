@@ -16,9 +16,6 @@
         <action
             android:id="@+id/action_mainFragment_to_historyFragment"
             app:destination="@id/historyFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_kakaoMapFragment"
-            app:destination="@id/kakaoMapFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"
@@ -36,8 +33,12 @@
             android:id="@+id/action_historyFragment_to_mapFragment"
             app:destination="@id/mapFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/kakaoMapFragment"
-        android:name="com.example.foulette.ui.map.KakaoMapFragment"
-        android:label="KakaoMapFragment" />
+    <dialog
+        android:id="@+id/rouletteDialog"
+        android:name="com.example.foulette.ui.main.RouletteDialog"
+        android:label="RouletteDialog" >
+        <action
+            android:id="@+id/action_rouletteDialog_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </dialog>
 </navigation>
