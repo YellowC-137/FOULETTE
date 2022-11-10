@@ -13,8 +13,8 @@ object HistoryMapper {
                     restaurantName = it.restaurantName,
                     restaurantImgUrl = it.restaurantImgUrl,
                     restaurantAddress = it.restaurantAddress,
-                    restauranLocLat = it.restauranLocLat,
-                    restauranLocLog = it.restauranLocLog,
+                    restaurantLocLat = it.restaurantLocLat,
+                    restaurantLocLog = it.restaurantLocLog,
                     date = it.date
                 )
             )

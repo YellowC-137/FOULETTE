@@ -2,6 +2,7 @@ package com.example.foulette.di
 
 import com.example.foulette.data.local.repositoryImpl.HistoryRepositoryImpl
 import com.example.foulette.data.remote.repositoryImpl.RemoteRepositoryImpl
+import com.example.foulette.domain.repositories.HistoryRepository
 import com.example.foulette.domain.repositories.RestaurantRepository
 import dagger.Binds
 import dagger.Module
@@ -24,7 +25,7 @@ abstract class RepositoryModule {
     @Singleton
     abstract fun bindLocalRepository(
         historyRepositoryImpl: HistoryRepositoryImpl
-    ): HistoryRepositoryImpl
+    ): HistoryRepository
 
 
 }

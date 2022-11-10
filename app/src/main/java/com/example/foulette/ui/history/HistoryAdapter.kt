@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.foulette.R
 import com.example.foulette.databinding.ItemHistoryBinding
 import com.example.foulette.domain.models.HistoryResult
 
@@ -38,6 +40,7 @@ class HistoryAdapter(
             itemClicked: (HistoryResult) -> Unit
         ) = with(binding) {
             history = item
+            Glide.with(ivRestaurant.context).load(item.restaurantImgUrl).error(R.drawable.no_img).into(ivRestaurant)
 
             ivDelete.setOnClickListener {
                 deleteClicked.invoke(item)
@@ -57,7 +60,7 @@ class HistoryAdapter(
             override fun areItemsTheSame(
                 oldItem: HistoryResult,
                 newItem: HistoryResult
-            ) = oldItem.id == newItem.id
+            ) = oldItem.restaurantName == newItem.restaurantName
 
             override fun areContentsTheSame(
                 oldItem: HistoryResult,

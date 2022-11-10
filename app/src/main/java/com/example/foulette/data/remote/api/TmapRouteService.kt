@@ -10,18 +10,16 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
 
-
 interface TmapRouteService {
     @POST(TMAP_ROUTE + "pedestrian")
     suspend fun getRouteList(
         @Header("appKey") appkey: String = TMAP_API,
         @Query("version") version: String = "1",
         @Query("callback") callback: String = "function",
-        @Body body: TmapBody,
+        @Body body: TmapBody
     ): Response<TmapRouteResultResponse>
-
-    //val response = client.newCall(request).execute()
 }
+
 
 @Serializable
 data class TmapBody(

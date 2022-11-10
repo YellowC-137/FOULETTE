@@ -9,5 +9,5 @@ class GetAllHistoryUseCase @Inject constructor(
     private val historyRepository: HistoryRepository
 ) {
     suspend operator fun invoke() =
-        historyRepository.getAll().flowOn(Dispatchers.Default)
+        historyRepository.getHistoryList().flowOn(Dispatchers.Default)
 }

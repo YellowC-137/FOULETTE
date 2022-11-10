@@ -2,7 +2,6 @@ package com.example.foulette.data.remote.repositoryImpl
 
 import com.example.foulette.data.remote.datasource.RemoteDataSource
 import com.example.foulette.data.remote.response.places.Result
-import com.example.foulette.data.remote.response.tmap.Feature
 import com.example.foulette.di.DispatcherModule
 import com.example.foulette.domain.models.RestaurantResult
 import com.example.foulette.domain.models.TmapRouteResult
@@ -38,7 +37,6 @@ class RemoteRepositoryImpl @Inject constructor(
             for (food in restaurantList) {
                 launch {
                     val temp = RestaurantResult(
-                        id = food.place_id?.length,
                         name = food.name,
                         type = food.types?.get(0),
                         latitude = food.geometry?.location?.lat,
@@ -68,26 +66,22 @@ class RemoteRepositoryImpl @Inject constructor(
             val responseListJob = async {
                 remoteDataSource.getTmapRoute(startX, startY, endX, endY, startName, endName)
             }
-            val routeList: List<Feature>
-
             when (val responseList = responseListJob.await()) {
                 is com.example.foulette.domain.models.Result.Success -> {
-                    routeList = responseList.data.features
+
                 }
                 is com.example.foulette.domain.models.Result.Error -> {
                     return@withContext
                 }
             }
-
-            for (roads in routeList) {
-                if (roads.type == "LineString") {
-                    Timber.e(roads.geometry.type)
-                }
+            for (test in result) {
+                Timber.e(test.pointX + "," + test.pointY)
             }
         }
 
         return result
     }
+
 
 }
 

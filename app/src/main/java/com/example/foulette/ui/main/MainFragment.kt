@@ -11,7 +11,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import com.example.foulette.R
 import com.example.foulette.databinding.FragmentMainBinding
+import com.example.foulette.domain.models.RestaurantResult
 import com.example.foulette.ui.base.BaseFragment
+import com.example.foulette.ui.roulette.RouletteDialog
 import com.example.foulette.util.REQUEST_CODE
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -19,6 +21,8 @@ import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.annotations.AfterPermissionGranted
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.security.SecureRandom
+import java.util.stream.Collectors.toMap
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
@@ -31,6 +35,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         initView()
         requiresPermission()
+        //collectFlow()
+    }
+
+    private fun collectFlow() {
+        //TODO("Not yet implemented")
+        //val toMap = MainFragmentDirections.actionMainFragmentToMapFragment()
+        //requireView().findNavController().navigate(toMap)
     }
 
     //TODO api call 수정, 권한 수정 ,Flow
@@ -39,32 +50,14 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         binding.apply {
             btnSearchFromMylocation.setOnClickListener {
                 getMyLocation()
+                //playRoulette()  , 룰렛 상태에 따라서 호출
                 //val toMap = MainFragmentDirections.actionMainFragmentToMapFragment()
                 //requireView().findNavController().navigate(toMap)
-
             }
             fabHistory.setOnClickListener {
-                //val toHistory = MainFragmentDirections.actionMainFragmentToHistoryFragment()
-                //requireView().findNavController().navigate(toHistory)
-                test()
+                val toHistory = MainFragmentDirections.actionMainFragmentToHistoryFragment()
+                requireView().findNavController().navigate(toHistory)
             }
-            fabSetting.setOnClickListener {
-                //startSettingDialog()
-                playRoulette()
-            }
-        }
-    }
-
-    private fun test() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.restaurantList.collect { goal ->
-                    //Timber.e("${goal[0].name}")
-                    val toMap = MainFragmentDirections.actionMainFragmentToMapFragment()
-                    requireView().findNavController().navigate(toMap)
-                }
-            }
-
         }
     }
 
@@ -95,12 +88,22 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private fun getMyLocation() {
         fusedLocationClient.lastLocation.addOnSuccessListener {
             val latlng: String = it.latitude.toString() + "," + it.longitude.toString()
+            viewModel.getRestaurant(latlng)
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.getRestaurant(latlng)
+                    viewModel.restaurantList.collect {
+                        val random = SecureRandom().nextInt(it.size)
+                        val selected = it[random]
+                        toMap(selected)
+                    }
                 }
             }
         }
+    }
+
+    private fun toMap(selected: RestaurantResult) {
+        val toMap = MainFragmentDirections.actionMainFragmentToMapFragment(selected!!)
+        requireView().findNavController().navigate(toMap)
     }
 
 
@@ -110,15 +113,5 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             "RouletteDialog"
         )
     }
-
-    /*override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
-    }
-    */
 
 }

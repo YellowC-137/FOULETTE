@@ -16,6 +16,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -64,6 +65,7 @@ object NetworkModule {
         return Retrofit.Builder()
             .baseUrl(TMAP_ROUTE)
             .client(okHttpClient)
+            .addConverterFactory(ScalarsConverterFactory.create())//string type
             .addConverterFactory(converterFactory)
             .build()
     }
@@ -79,7 +81,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideTmapApiService(
+    fun provideTmapApiSservice(
         @TmapRetrofit retrofit: Retrofit,
     ): TmapRouteService {
         return retrofit.create(TmapRouteService::class.java)

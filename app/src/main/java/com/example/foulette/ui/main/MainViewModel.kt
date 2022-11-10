@@ -7,8 +7,11 @@ import com.example.foulette.domain.models.TmapRouteResult
 import com.example.foulette.domain.usecases.GetRestaurantListUseCase
 import com.example.foulette.domain.usecases.GetTmapRouteUseCase
 import com.example.foulette.domain.usecases.SaveHistoryUseCase
+import com.example.foulette.ui.roulette.RouletteState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,29 +29,8 @@ class MainViewModel @Inject constructor(
     private val _routeList = MutableStateFlow<List<TmapRouteResult>>(emptyList())
     val routeList = _routeList.asStateFlow()
 
-
-    fun saveHistory(
-        id: Int,
-        restaurantName: String,
-        restaurantImgUrl: String,
-        restaurantAddress: String,
-        restauranLocLat: Double,
-        restauranLocLog: Double,
-        date: String
-    ) {
-        viewModelScope.launch {
-            saveHistoryUseCase.invoke(
-                id,
-                restaurantName,
-                restaurantImgUrl,
-                restaurantAddress,
-                restauranLocLat,
-                restauranLocLog,
-                date
-            )
-
-        }
-    }
+    private val _rouletteState = MutableSharedFlow<RouletteState>()
+    val rouletteState = _rouletteState.asSharedFlow()
 
     fun getRestaurant(myLoc: String) {
         viewModelScope.launch {

@@ -26,4 +26,5 @@ ext {
     timber_version = "5.0.1"
     room_version = "2.4.3"
     moshi_version = "1.14.0"
+    mockk_version = "1.12.4"
 }
