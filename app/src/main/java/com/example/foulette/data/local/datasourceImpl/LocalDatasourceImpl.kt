@@ -16,7 +16,7 @@ class LocalDatasourceImpl @Inject constructor(
         historyDao.saveHistory(historyEntity)
     }
 
-    override suspend fun deleteHistoryById(id:Int) {
-        historyDao.deleteHistoryById(id)
+    override suspend fun deleteHistoryByName(name:String) {
+        historyDao.deleteHistoryByName(name)
     }
 }

@@ -20,8 +20,7 @@ object LocalModule {
             .databaseBuilder(
                 FouletteApplication.ApplicationContext(),
                 HistoryDatabase::class.java,
-                "history_database"
-            )
+                "history_database")
             .fallbackToDestructiveMigration()
             .build()
     }

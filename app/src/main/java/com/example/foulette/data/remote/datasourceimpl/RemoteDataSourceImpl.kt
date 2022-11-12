@@ -5,11 +5,15 @@ import com.example.foulette.data.remote.api.TmapBody
 import com.example.foulette.data.remote.api.TmapRouteService
 import com.example.foulette.data.remote.datasource.RemoteDataSource
 import com.example.foulette.data.remote.response.places.RestaurantListResultResponse
-import com.example.foulette.data.remote.response.tmap.*
+import com.example.foulette.data.remote.response.tmap.TResponses
+import com.example.foulette.data.remote.response.tmap.TmapRouteResultResponse
 import com.example.foulette.domain.models.Result
-import okhttp3.Response
-import timber.log.Timber
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import javax.inject.Inject
+
+//TODO: 수정
 
 class RemoteDataSourceImpl @Inject constructor(
     private val restaurantListService: RestaurantListService,
@@ -45,9 +49,7 @@ class RemoteDataSourceImpl @Inject constructor(
             startName = startName,
             endName = endName
         )
-        val test = tmapRouteService.getRouteList(body = tbody)
         val response = tmapRouteService.getRouteList(body = tbody) // 수정
-
         return try {
             if (response.isSuccessful) {
                 Result.Success(response.body()!!)

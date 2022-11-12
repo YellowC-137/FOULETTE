@@ -13,11 +13,11 @@
         tools:context=".ui.main.MainFragment">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_history"
+            android:id="@+id/fab_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:src="@drawable/ic_baseline_history_24"
+            android:src="@drawable/ic_baseline_star_outline_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:rippleColor="@color/yellow" />
@@ -30,7 +30,7 @@
             android:layout_margin="16dp"
             android:src="@drawable/ic_baseline_settings_24"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fab_history" />
+            app:layout_constraintTop_toBottomOf="@id/fab_favorite" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"

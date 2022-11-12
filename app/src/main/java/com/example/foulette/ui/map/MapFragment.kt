@@ -39,9 +39,14 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val args: MapFragmentArgs by navArgs()
-        selectedRestaurant = args.selectedRestaurant
-        Timber.e("${selectedRestaurant.name}")
+        //val args: MapFragmentArgs by navArgs()
+        /*
+        <argument
+            android:name="selectedRestaurant"
+            app:argType="com.example.foulette.domain.models.RestaurantResult"/>
+        * */
+        //selectedRestaurant = args.selectedRestaurant
+
 
         Places.initialize(FouletteApplication.ApplicationContext(), BuildConfig.MAPS_API_KEY)
         placesClient = Places.createClient(requireContext())
@@ -55,26 +60,18 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map),
     private fun save() {
         val saveRestaurant = HistoryResult(
             0,
-            restaurantName = selectedRestaurant.name!!,
-            restaurantLocLog = selectedRestaurant.longitude!!,
-            restaurantLocLat = selectedRestaurant.latitude!!,
-            restaurantAddress = selectedRestaurant.type!!,
-            restaurantImgUrl = selectedRestaurant.ImgUrl!!, date = ""
+            restaurantName = "TEST",
+            restaurantLocLog = 37.53462435,
+            restaurantLocLat = 123.3253,
+            restaurantAddress = "test",
+            restaurantImgUrl = "", date = ""
         )
-        viewModel.saveHistory(
-           saveRestaurant
-        )
+        viewModel.saveHistory(saveRestaurant)
         Timber.e("SAVE!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     }
 
     private fun collectFlow() {
         //TODO("Not yet implemented")
-
-//response가 리스트가 아닌 데이터 그자체? , 타입이 점일때와 선일때가 달라서 그렇다!
-
-        /*kotlinx.serialization.json.internal.JsonDecodingException: Unexpected JSON token at offset 132: Expected start of the array '[', but had '[' instead
-             JSON input: ....."Point",       "coordinates": [127.05670593180979,37.4554606
-        * */
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
@@ -97,8 +94,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map),
                 )
             )
             val start = "${it.latitude},${it.longitude}"
-            //viewModel.getRoute(it.longitude, it.latitude, 127.054154, 37.448604, "출발지", "도착지")
-            //x,y가 반대임 , x:127~ y:37~
+
 
 
         }

@@ -1,14 +1,11 @@
 package com.example.foulette.data.remote.response.tmap
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class Geometry(
-    val coordinates: List<List<String>>?,
+    val coordinates: List<List<String>>,
     val type: String
 )
-
-

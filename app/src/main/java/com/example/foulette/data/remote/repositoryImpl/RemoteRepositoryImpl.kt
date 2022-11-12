@@ -65,7 +65,7 @@ class RemoteRepositoryImpl @Inject constructor(
         withContext(dispatcherIO) {
             val responseListJob = async {
                 remoteDataSource.getTmapRoute(startX, startY, endX, endY, startName, endName)
-            }
+            }/*
             when (val responseList = responseListJob.await()) {
                 is com.example.foulette.domain.models.Result.Success -> {
 
@@ -77,6 +77,7 @@ class RemoteRepositoryImpl @Inject constructor(
             for (test in result) {
                 Timber.e(test.pointX + "," + test.pointY)
             }
+            */
         }
 
         return result

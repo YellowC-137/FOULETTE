@@ -1,8 +1,7 @@
 package com.example.foulette.data.remote.datasource
 
 import com.example.foulette.data.remote.response.places.RestaurantListResultResponse
-import com.example.foulette.data.remote.response.tmap.Feature
-import com.example.foulette.data.remote.response.tmap.Geometry
+import com.example.foulette.data.remote.response.tmap.TResponses
 import com.example.foulette.data.remote.response.tmap.TmapRouteResultResponse
 import com.example.foulette.domain.models.Result
 

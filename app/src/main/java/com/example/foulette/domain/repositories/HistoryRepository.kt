@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface HistoryRepository {
     fun getAll(): Flow<List<HistoryResult>>
     suspend fun saveHistory(historyResult: HistoryResult)
-    suspend fun deleteHistoryById(id: Int)
+    suspend fun deleteHistoryByName(name: String)
     suspend fun getHistoryList(): Flow<PagingData<HistoryResult>>
 
 }

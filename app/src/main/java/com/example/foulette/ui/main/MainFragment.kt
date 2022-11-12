@@ -11,7 +11,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import com.example.foulette.R
 import com.example.foulette.databinding.FragmentMainBinding
-import com.example.foulette.domain.models.RestaurantResult
 import com.example.foulette.ui.base.BaseFragment
 import com.example.foulette.ui.roulette.RouletteDialog
 import com.example.foulette.util.REQUEST_CODE
@@ -21,8 +20,6 @@ import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.annotations.AfterPermissionGranted
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.security.SecureRandom
-import java.util.stream.Collectors.toMap
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
@@ -34,27 +31,21 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         initView()
+        collectFlow()
         requiresPermission()
-        //collectFlow()
     }
 
-    private fun collectFlow() {
-        //TODO("Not yet implemented")
-        //val toMap = MainFragmentDirections.actionMainFragmentToMapFragment()
-        //requireView().findNavController().navigate(toMap)
-    }
-
-    //TODO api call 수정, 권한 수정 ,Flow
+    //TODO 권한 수정, 룰렛 stateFlow
 
     private fun initView() {
         binding.apply {
             btnSearchFromMylocation.setOnClickListener {
                 getMyLocation()
+                val toMap = MainFragmentDirections.actionMainFragmentToMapFragment()
+                requireView().findNavController().navigate(toMap)
                 //playRoulette()  , 룰렛 상태에 따라서 호출
-                //val toMap = MainFragmentDirections.actionMainFragmentToMapFragment()
-                //requireView().findNavController().navigate(toMap)
             }
-            fabHistory.setOnClickListener {
+            fabFavorite.setOnClickListener {
                 val toHistory = MainFragmentDirections.actionMainFragmentToHistoryFragment()
                 requireView().findNavController().navigate(toHistory)
             }
@@ -89,21 +80,17 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         fusedLocationClient.lastLocation.addOnSuccessListener {
             val latlng: String = it.latitude.toString() + "," + it.longitude.toString()
             viewModel.getRestaurant(latlng)
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.restaurantList.collect {
-                        val random = SecureRandom().nextInt(it.size)
-                        val selected = it[random]
-                        toMap(selected)
-                    }
-                }
-            }
         }
     }
 
-    private fun toMap(selected: RestaurantResult) {
-        val toMap = MainFragmentDirections.actionMainFragmentToMapFragment(selected!!)
-        requireView().findNavController().navigate(toMap)
+    private fun collectFlow() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.restaurantList.collect {
+                }
+            }
+        }
+
     }
 
 
@@ -112,6 +99,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             requireActivity().supportFragmentManager,
             "RouletteDialog"
         )
+        //TODO: 룰렛이 dismiss 된 이후에 toMap
+        //val toMap = MainFragmentDirections.actionMainFragmentToMapFragment()
+        //requireView().findNavController().navigate(toMap)
     }
 
 }

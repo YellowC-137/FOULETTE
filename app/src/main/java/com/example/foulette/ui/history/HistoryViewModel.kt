@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.foulette.domain.models.HistoryResult
-import com.example.foulette.domain.usecases.DeleteHistoryByIdUseCase
+import com.example.foulette.domain.usecases.DeleteHistoryByNameUseCase
 import com.example.foulette.domain.usecases.GetAllHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HistoryViewModel @Inject constructor(
     private val getAllHistoryUseCase: GetAllHistoryUseCase,
-    private val deleteHistoryByIdUseCase: DeleteHistoryByIdUseCase,
+    private val deleteHistoryByNameUseCase: DeleteHistoryByNameUseCase,
 ) : ViewModel() {
 
     private val _historyData: MutableStateFlow<PagingData<HistoryResult>> =
@@ -35,9 +35,9 @@ class HistoryViewModel @Inject constructor(
         }
     }
 
-    fun deleteHistoryById(id: Int) {
+    fun deleteHistoryByName(name: String) {
         viewModelScope.launch {
-            deleteHistoryByIdUseCase.invoke(id)
+            deleteHistoryByNameUseCase.invoke(name)
             getAllHistory()
         }
     }

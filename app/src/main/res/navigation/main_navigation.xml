@@ -22,9 +22,7 @@
         android:name="com.example.foulette.ui.map.MapFragment"
         android:label="MapFragment"
         tools:layout="@layout/fragment_map">
-        <argument
-            android:name="selectedRestaurant"
-            app:argType="com.example.foulette.domain.models.RestaurantResult"/>
+
 
     </fragment>
     <fragment
