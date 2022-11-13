@@ -9,31 +9,34 @@ Summary
 
 Structure
 ```
-├── common
-│   ├── base
-│   ├── constant
-│   ├── di
-│   ├── extension
-│   └── util
+├── util
 ├── data
-│   ├── local
-│   │   ├── dao
-│   │   ├── datasource
-│   │   ├── datasourceimpl
-│   │   └── entity
-│   ├── paging
-│   └── repositoryimpl
+│   ├── local
+│   │   ├── dao
+│   │   ├── database
+│   │   ├── datasource
+│   │   ├── datasourceimpl
+│   │   ├── entity
+│   │   ├── paging
+│   │   └── repositoryimpl
+│   ├── remote
+│   │   ├── api
+│   │   ├── datasource
+│   │   ├── datasourceimpl
+│   │   ├── repositoryimpl
+│   │   └── response
 ├── domain
-│   ├── model
-│   ├── repository
-│   └── usecase
-└── presentation
-    ├── adapter
-    ├── view
-    │   ├── sensor_history_list
-    │   ├── sensor_history_measure
-    │   ├── sensor_history_play
-    │   └── sensor_history_show
-    └── viewmodel
+│   ├── mapper
+│   ├── model
+│   ├── repository
+│   └── usecase
+├── ui
+│   ├── base
+│   ├── history
+│   ├── main
+│   ├── map
+│   ├── roulette
+│   └── usecase
+└── di
 ```
 
