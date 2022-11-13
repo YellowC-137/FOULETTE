@@ -7,5 +7,33 @@ Summary
 
 기술 스택
 
-
 Structure
+```
+├── common
+│   ├── base
+│   ├── constant
+│   ├── di
+│   ├── extension
+│   └── util
+├── data
+│   ├── local
+│   │   ├── dao
+│   │   ├── datasource
+│   │   ├── datasourceimpl
+│   │   └── entity
+│   ├── paging
+│   └── repositoryimpl
+├── domain
+│   ├── model
+│   ├── repository
+│   └── usecase
+└── presentation
+    ├── adapter
+    ├── view
+    │   ├── sensor_history_list
+    │   ├── sensor_history_measure
+    │   ├── sensor_history_play
+    │   └── sensor_history_show
+    └── viewmodel
+```
+
