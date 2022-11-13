@@ -9,29 +9,3 @@ Summary
 
 
 Structure
-├── util
-├── data
-│   ├── local
-│   │   ├── dao
-│   │   ├── database
-│   │   ├── datasource
-│   │   ├── datasourceimpl
-│   │   ├── entity
-│   │   ├── paging
-│   │   └── repositoryimpl
-│   ├── remote
-│   │   ├── api
-│   │   ├── datasource
-│   │   ├── datasourceimpl
-│   │   ├── repositoryimpl
-│   │   └── response
-├── domain
-│   ├── mapper
-│   ├── model
-│   ├── repository
-│   └── usecase
-├── di
-└── ui
-    ├── base
-    ├── view
-    └── viewmodel
