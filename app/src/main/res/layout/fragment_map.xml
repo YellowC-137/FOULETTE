@@ -12,27 +12,11 @@
     android:layout_height="match_parent">
 
     <androidx.fragment.app.FragmentContainerView
-        app:layout_constraintVertical_weight="1"
         android:id="@+id/map"
-        app:layout_constraintBottom_toTopOf="@id/rcv_list"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.map.MapFragment" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_list"
-        app:layout_constraintVertical_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/map"
-        tools:listitem="@layout/item_search"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:src="@drawable/ic_baseline_settings_backup_restore_24"

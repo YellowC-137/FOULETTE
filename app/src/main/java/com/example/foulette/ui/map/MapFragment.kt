@@ -67,7 +67,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map),
             restaurantImgUrl = "", date = ""
         )
         viewModel.saveHistory(saveRestaurant)
-        Timber.e("SAVE!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     }
 
     private fun collectFlow() {
@@ -94,6 +93,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map),
                 )
             )
             val start = "${it.latitude},${it.longitude}"
+            viewModel.getRoute(it.longitude,it.latitude,127.3253,37.53462435,"출발","도착")
 
 
 

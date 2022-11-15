@@ -20,7 +20,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(R.layout.fragment_h
     private val pagingAdapter: HistoryAdapter by lazy {
         HistoryAdapter(
             deleteClicked = {
-                viewModel.deleteHistoryById(it.id)
+                viewModel.deleteHistoryByName(it.restaurantName)
                 Snackbar.make(binding.root,"삭제되었습니다.",Snackbar.LENGTH_SHORT).show()
             },
             itemClicked = {
