@@ -22,7 +22,9 @@
         android:name="com.example.foulette.ui.map.MapFragment"
         android:label="MapFragment"
         tools:layout="@layout/fragment_map">
-
+        <argument
+            android:name="result"
+            app:argType="com.example.foulette.domain.models.RestaurantResult" />
 
     </fragment>
     <fragment
@@ -34,12 +36,4 @@
             android:id="@+id/action_historyFragment_to_mapFragment"
             app:destination="@id/mapFragment" />
     </fragment>
-    <dialog
-        android:id="@+id/rouletteDialog"
-        android:name="com.example.foulette.ui.roulette.RouletteDialog"
-        android:label="RouletteDialog" >
-        <action
-            android:id="@+id/action_rouletteDialog_to_mapFragment"
-            app:destination="@id/mapFragment" />
-    </dialog>
 </navigation>

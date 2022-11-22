@@ -11,28 +11,38 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import com.example.foulette.R
 import com.example.foulette.databinding.FragmentMainBinding
+import com.example.foulette.domain.models.HistoryResult
+import com.example.foulette.domain.models.RestaurantResult
 import com.example.foulette.ui.base.BaseFragment
 import com.example.foulette.ui.roulette.RouletteDialog
+import com.example.foulette.ui.roulette.RouletteState
 import com.example.foulette.util.REQUEST_CODE
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.annotations.AfterPermissionGranted
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.security.SecureRandom
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var random by Delegates.notNull<Int>()
+    private lateinit var result: RestaurantResult
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         initView()
-        collectFlow()
         requiresPermission()
+        getMyLocation() //TODO 호출시기
+        collectFlow()
     }
 
     //TODO 권한 수정, 룰렛 stateFlow
@@ -40,10 +50,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private fun initView() {
         binding.apply {
             btnSearchFromMylocation.setOnClickListener {
-                getMyLocation()
-                val toMap = MainFragmentDirections.actionMainFragmentToMapFragment()
-                requireView().findNavController().navigate(toMap)
-                //playRoulette()  , 룰렛 상태에 따라서 호출
+                playRoulette()
             }
             fabFavorite.setOnClickListener {
                 val toHistory = MainFragmentDirections.actionMainFragmentToHistoryFragment()
@@ -86,7 +93,35 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private fun collectFlow() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.restaurantList.collect {
+                viewModel.restaurantList.collectLatest {
+                    if (it.isNotEmpty()) {
+                        random = SecureRandom().nextInt(it.size) + 1
+                        result = it[random]
+                        Timber.e("${random} : ${result.name}")
+                    }
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.rouletteState.collect { rouletteState ->
+                    if (rouletteState == RouletteState.finish) {
+                        viewModel.saveResult(
+                            HistoryResult(
+                                id = 0,
+                                date = "",
+                                restaurantName = result.name!!,
+                                restaurantAddress = "",
+                                restaurantImgUrl = result.ImgUrl!!,
+                                restaurantLocLog = result.longitude!!,
+                                restaurantLocLat = result.latitude!!,
+                            )
+                        )
+                        viewModel.setRouletteState(RouletteState.closed)
+                        val toMap = MainFragmentDirections.actionMainFragmentToMapFragment(result)
+                        requireView().findNavController().navigate(toMap)
+                    }
+
                 }
             }
         }
@@ -95,13 +130,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
 
     private fun playRoulette() {
+        viewModel.setRouletteState(RouletteState.playing)
         RouletteDialog().show(
             requireActivity().supportFragmentManager,
-            "RouletteDialog"
+            "Roulette"
         )
-        //TODO: 룰렛이 dismiss 된 이후에 toMap
-        //val toMap = MainFragmentDirections.actionMainFragmentToMapFragment()
-        //requireView().findNavController().navigate(toMap)
     }
+
 
 }

@@ -13,13 +13,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.findNavController
 import com.bluehomestudio.luckywheel.LuckyWheel
 import com.bluehomestudio.luckywheel.WheelItem
 import com.example.foulette.R
 import com.example.foulette.databinding.DialogRouletteBinding
 import com.example.foulette.ui.base.BaseDialog
-import com.example.foulette.ui.main.MainFragmentDirections
 import com.example.foulette.ui.main.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
@@ -46,11 +44,27 @@ class RouletteDialog() : BaseDialog<DialogRouletteBinding>(R.layout.dialog_roule
         val binding = super.onCreateView(inflater, container, savedInstanceState)
         setRoulette()
         initView()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.rouletteState.collect{
+                    Timber.e("$it")
+                }
+
+            }
+            }
+
         return binding
     }
 
     private fun setRoulette() {
-        val img = listOf<Int>(R.drawable.one,R.drawable.two,R.drawable.three,R.drawable.four,R.drawable.five,R.drawable.six)
+        val img = listOf<Int>(
+            R.drawable.one,
+            R.drawable.two,
+            R.drawable.three,
+            R.drawable.four,
+            R.drawable.five,
+            R.drawable.six
+        )
         for (i in img) {
             wheelItems.add(
                 WheelItem(
@@ -65,7 +79,6 @@ class RouletteDialog() : BaseDialog<DialogRouletteBinding>(R.layout.dialog_roule
 
 
     private fun initView() {
-        val random = SecureRandom().nextInt(5)+1
         dialog?.apply {
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
@@ -80,14 +93,13 @@ class RouletteDialog() : BaseDialog<DialogRouletteBinding>(R.layout.dialog_roule
                     "찾았다!",
                     Snackbar.LENGTH_LONG
                 ).show()
-                showMap()
+                viewModel.setRouletteState(RouletteState.finish)
+                dismiss()
             }
+            val random = SecureRandom().nextInt(5) + 1
             roulette.rotateWheelTo(random)
         }
     }
 
-    private fun showMap() {
-        dismiss()
-    }
 
 }

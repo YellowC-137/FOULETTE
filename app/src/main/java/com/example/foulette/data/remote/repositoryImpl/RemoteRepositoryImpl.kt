@@ -2,6 +2,8 @@ package com.example.foulette.data.remote.repositoryImpl
 
 import com.example.foulette.data.remote.datasource.RemoteDataSource
 import com.example.foulette.data.remote.response.places.Result
+import com.example.foulette.data.remote.response.tmap.Geo
+import com.example.foulette.data.remote.response.tmap.LineString
 import com.example.foulette.di.DispatcherModule
 import com.example.foulette.domain.models.RestaurantResult
 import com.example.foulette.domain.models.TmapRouteResult
@@ -12,6 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.reflect.KClass
 
 class RemoteRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
@@ -65,19 +68,22 @@ class RemoteRepositoryImpl @Inject constructor(
         withContext(dispatcherIO) {
             val responseListJob = async {
                 remoteDataSource.getTmapRoute(startX, startY, endX, endY, startName, endName)
-            }/*
+            }
             when (val responseList = responseListJob.await()) {
                 is com.example.foulette.domain.models.Result.Success -> {
-
+                    for (test in responseList.data.features){
+                        if (test.geometry.type =="LineString"){
+                            val line : LineString = test.geometry as LineString
+                            for (route in line.coordinates){
+                                
+                            }
+                        }
+                    }
                 }
                 is com.example.foulette.domain.models.Result.Error -> {
                     return@withContext
                 }
             }
-            for (test in result) {
-                Timber.e(test.pointX + "," + test.pointY)
-            }
-            */
         }
 
         return result
@@ -85,5 +91,3 @@ class RemoteRepositoryImpl @Inject constructor(
 
 
 }
-
-//coor = [ [a,b] , [c,d]   ]

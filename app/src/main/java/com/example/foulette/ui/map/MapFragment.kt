@@ -12,7 +12,6 @@ import com.example.foulette.BuildConfig
 import com.example.foulette.FouletteApplication
 import com.example.foulette.R
 import com.example.foulette.databinding.FragmentMapBinding
-import com.example.foulette.domain.models.HistoryResult
 import com.example.foulette.domain.models.RestaurantResult
 import com.example.foulette.ui.base.BaseFragment
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -39,41 +38,23 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //val args: MapFragmentArgs by navArgs()
-        /*
-        <argument
-            android:name="selectedRestaurant"
-            app:argType="com.example.foulette.domain.models.RestaurantResult"/>
-        * */
-        //selectedRestaurant = args.selectedRestaurant
-
+        val args: MapFragmentArgs by navArgs()
+        selectedRestaurant = args.result
+        Timber.e(selectedRestaurant.name+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
         Places.initialize(FouletteApplication.ApplicationContext(), BuildConfig.MAPS_API_KEY)
         placesClient = Places.createClient(requireContext())
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
-        save()
-        //collectFlow()
-    }
 
-    private fun save() {
-        val saveRestaurant = HistoryResult(
-            0,
-            restaurantName = "TEST",
-            restaurantLocLog = 37.53462435,
-            restaurantLocLat = 123.3253,
-            restaurantAddress = "test",
-            restaurantImgUrl = "", date = ""
-        )
-        viewModel.saveHistory(saveRestaurant)
+        collectFlow()
     }
 
     private fun collectFlow() {
-        //TODO("Not yet implemented")
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-
+                //TODO
             }
         }
     }
@@ -93,13 +74,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map),
                 )
             )
             val start = "${it.latitude},${it.longitude}"
-            viewModel.getRoute(it.longitude,it.latitude,127.3253,37.53462435,"출발","도착")
-
-
-
+            viewModel.getRoute(it.longitude, it.latitude, 127.3253, 37.53462435, "출발", "도착")
         }
-
-
     }
 
 }

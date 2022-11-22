@@ -16,6 +16,16 @@
         android:layout_margin="8dp"
         android:background="@drawable/shape_round_box">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@id/iv_restaurant"
+            android:text="@{history.id+1}"
+            app:layout_constraintBottom_toTopOf="@id/iv_restaurant"
+            android:textColor="@color/black"
+            />
+
         <ImageView
             android:id="@+id/iv_restaurant"
             android:layout_width="100dp"

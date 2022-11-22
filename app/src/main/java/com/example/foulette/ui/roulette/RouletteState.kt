@@ -2,21 +2,13 @@ package com.example.foulette.ui.roulette
 
 sealed class RouletteState {
 
-    data class Success(
-        val mode: MODE
-    ) : RouletteState()
+    object closed : RouletteState()
 
-    data class Failure(
-        val mode: MODE
-    ) : RouletteState()
+    object playing : RouletteState()
 
-    object Modify : RouletteState()
-
-    object Reading : RouletteState()
-
-    object Review : RouletteState()
+    object finish : RouletteState()
 }
 
 enum class MODE {
-    CLOSE,PLAYING,
+    CLOSE,PLAYING,FINISH
 }
