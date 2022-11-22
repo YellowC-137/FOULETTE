@@ -75,7 +75,7 @@ class RemoteRepositoryImpl @Inject constructor(
                         if (test.geometry.type =="LineString"){
                             val line : LineString = test.geometry as LineString
                             for (route in line.coordinates){
-                                
+                                Timber.e("x : ${route[0]} , y: ${route[1]}")
                             }
                         }
                     }

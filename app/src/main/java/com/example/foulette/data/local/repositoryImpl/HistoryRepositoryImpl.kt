@@ -30,8 +30,8 @@ class HistoryRepositoryImpl @Inject constructor(
         localDataSource.saveHistory(historyResult.toEntity())
     }
 
-    override suspend fun deleteHistoryByName(name: String) {
-        localDataSource.deleteHistoryByName(name)
+    override suspend fun deleteHistoryById(id: Int) {
+        localDataSource.deleteHistoryById(id)
     }
 
     override suspend fun getHistoryList(): Flow<PagingData<HistoryResult>> {

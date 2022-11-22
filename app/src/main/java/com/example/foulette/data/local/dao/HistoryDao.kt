@@ -18,8 +18,8 @@ interface HistoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveHistory(historyEntity: HistoryEntity)
 
-    @Query("DELETE FROM history WHERE restaurantName = :name")
-    suspend fun deleteHistoryByName(name: String)
+    @Query("DELETE FROM history WHERE id = :id")
+    suspend fun deleteHistoryById(id:Int)
 
     @Query("SELECT * from history ORDER BY date DESC LIMIT :loadSize OFFSET (:page - 1) * :loadSize")
     suspend fun getHistoryList(page: Int, loadSize: Int): List<HistoryEntity>

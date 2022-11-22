@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface LocalDataSource {
     fun getAll(): Flow<List<HistoryEntity>>
     suspend fun saveHistory(historyEntity: HistoryEntity)
-    suspend fun deleteHistoryByName(name:String)
+    suspend fun deleteHistoryById(id:Int)
 }
