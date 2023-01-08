@@ -23,9 +23,15 @@
         android:label="MapFragment"
         tools:layout="@layout/fragment_map">
         <argument
-            android:name="result"
+            android:name="restaurant"
             app:argType="com.example.foulette.domain.models.RestaurantResult" />
-
+        <argument
+            android:name="routes"
+            app:argType="com.example.foulette.domain.models.TmapRouteResult" />
+        <argument
+            android:name="Iserror"
+            app:argType="Boolean"
+            android:defaultValue="false"/>
     </fragment>
     <fragment
         android:id="@+id/historyFragment"

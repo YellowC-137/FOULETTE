@@ -43,7 +43,7 @@ class RemoteDataSourceImpl @Inject constructor(
             startName = startName,
             endName = endName
         )
-        val response = tmapRouteService.getRouteList(body = tbody) // 수정
+        val response = tmapRouteService.getRouteList(body = tbody)
         return try {
             if (response.isSuccessful) {
                 Result.Success(response.body()!!)

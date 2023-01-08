@@ -2,23 +2,32 @@ package com.example.foulette.ui.main
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.DialogInterface
+import android.location.Location
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.IdRes
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.example.foulette.R
+import com.example.foulette.databinding.DialogRouletteBinding
 import com.example.foulette.databinding.FragmentMainBinding
-import com.example.foulette.domain.models.HistoryResult
 import com.example.foulette.domain.models.RestaurantResult
+import com.example.foulette.domain.models.TmapRouteResult
+import com.example.foulette.ui.base.BaseDialog
 import com.example.foulette.ui.base.BaseFragment
 import com.example.foulette.ui.roulette.RouletteDialog
 import com.example.foulette.ui.roulette.RouletteState
 import com.example.foulette.util.REQUEST_CODE
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.snackbar.Snackbar
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.annotations.AfterPermissionGranted
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,28 +38,30 @@ import java.security.SecureRandom
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
-class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
+class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
+    DialogInterface.OnDismissListener {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var random by Delegates.notNull<Int>()
     private lateinit var result: RestaurantResult
+    private lateinit var route: TmapRouteResult
+    private lateinit var myLoc: Location
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-        initView()
         requiresPermission()
-        getMyLocation() //TODO 호출시기
+        initView()
         collectFlow()
+        viewModel.setRouletteState(RouletteState.closed)
     }
 
     //TODO 권한 수정, 룰렛 stateFlow
-
     private fun initView() {
         binding.apply {
             btnSearchFromMylocation.setOnClickListener {
-                playRoulette()
+                setData()
             }
             fabFavorite.setOnClickListener {
                 val toHistory = MainFragmentDirections.actionMainFragmentToHistoryFragment()
@@ -79,12 +90,14 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 requestCode = REQUEST_CODE,
                 perms = perms
             )
+            Snackbar.make(requireView(), "권한이 필요합니다.", Snackbar.LENGTH_LONG).show()
         }
     }
 
     @SuppressLint("MissingPermission")
-    private fun getMyLocation() {
+    private fun setData() {
         fusedLocationClient.lastLocation.addOnSuccessListener {
+            myLoc = it
             val latlng: String = it.latitude.toString() + "," + it.longitude.toString()
             viewModel.getRestaurant(latlng)
         }
@@ -95,39 +108,33 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.restaurantList.collectLatest {
                     if (it.isNotEmpty()) {
-                        random = SecureRandom().nextInt(it.size) + 1
+                        random = SecureRandom().nextInt(it.size)
                         result = it[random]
-                        Timber.e("${random} : ${result.name}")
+                        viewModel.getRoute(
+                            myLoc.longitude,
+                            myLoc.latitude,
+                            result.longitude!!.toDouble(),
+                            result.latitude!!.toDouble(),
+                            "내 위치",
+                            result.name!!
+                        )
+                        Timber.e("restaurantList : ${result.name}")
                     }
                 }
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.rouletteState.collect { rouletteState ->
-                    if (rouletteState == RouletteState.finish) {
-                        viewModel.saveResult(
-                            HistoryResult(
-                                id = 0,
-                                date = "",
-                                restaurantName = result.name!!,
-                                restaurantAddress = "",
-                                restaurantImgUrl = result.ImgUrl!!,
-                                restaurantLocLog = result.longitude!!,
-                                restaurantLocLat = result.latitude!!,
-                            )
-                        )
-                        viewModel.setRouletteState(RouletteState.closed)
-                        val toMap = MainFragmentDirections.actionMainFragmentToMapFragment(result)
-                        requireView().findNavController().navigate(toMap)
+                viewModel.routesData.collectLatest {
+                    for (routes in it) {
+                        route = routes
+                        Timber.e("routeList : ${routes.totalTime}")
+                        playRoulette()
                     }
-
                 }
             }
         }
-
     }
-
 
     private fun playRoulette() {
         viewModel.setRouletteState(RouletteState.playing)
@@ -135,7 +142,20 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             requireActivity().supportFragmentManager,
             "Roulette"
         )
+        val toMap = MainFragmentDirections.actionMainFragmentToMapFragment(result,route)
+        requireView().findNavController().navigate(toMap)
     }
 
+    fun toMap() {
+        val toMap = MainFragmentDirections.actionMainFragmentToMapFragment(result, route)
+        findNavController().navigate(toMap)
+    }
+
+    override fun onDismiss(dialog: DialogInterface?) {
+        //toMap()
+        Snackbar.make(requireView(),"DISMISS",Snackbar.LENGTH_SHORT).show()
+    }
 
 }
+
+

@@ -2,7 +2,6 @@ package com.example.foulette.data.remote.repositoryImpl
 
 import com.example.foulette.data.remote.datasource.RemoteDataSource
 import com.example.foulette.data.remote.response.places.Result
-import com.example.foulette.data.remote.response.tmap.Geo
 import com.example.foulette.data.remote.response.tmap.LineString
 import com.example.foulette.di.DispatcherModule
 import com.example.foulette.domain.models.RestaurantResult
@@ -14,7 +13,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.reflect.KClass
 
 class RemoteRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
@@ -65,20 +63,28 @@ class RemoteRepositoryImpl @Inject constructor(
         endName: String
     ): List<TmapRouteResult> {
         val result = ArrayList<TmapRouteResult>()
+        val coor = ArrayList<List<String>>()
         withContext(dispatcherIO) {
             val responseListJob = async {
                 remoteDataSource.getTmapRoute(startX, startY, endX, endY, startName, endName)
             }
             when (val responseList = responseListJob.await()) {
                 is com.example.foulette.domain.models.Result.Success -> {
-                    for (test in responseList.data.features){
-                        if (test.geometry.type =="LineString"){
-                            val line : LineString = test.geometry as LineString
-                            for (route in line.coordinates){
-                                Timber.e("x : ${route[0]} , y: ${route[1]}")
+                    for (test in responseList.data.features) {
+                        if (test.geometry.type == "LineString") {
+                            val line: LineString = test.geometry as LineString
+                            for (route in line.coordinates) {
+                                coor.add(route)
                             }
+                            val temp = TmapRouteResult(
+                                coor,
+                                responseList.data.features[0].properties!!.totalDistance!!,
+                                responseList.data.features[0].properties!!.totalTime!!
+                            )
+                            result.add(temp)
                         }
                     }
+
                 }
                 is com.example.foulette.domain.models.Result.Error -> {
                     return@withContext
