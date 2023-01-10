@@ -37,8 +37,7 @@ Structure
 │   ├── main
 │   ├── map
 │   ├── roulette
-│   └── usecase
+│   ├── search
+│   └── historymap
 └── di
 ```
-
-
