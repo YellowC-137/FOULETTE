@@ -38,7 +38,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map),
     private lateinit var map: GoogleMap
     private lateinit var placesClient: PlacesClient
     private lateinit var selectedRestaurant: RestaurantResult
-    private lateinit var routeData : TmapRouteResult
+    private lateinit var routeData: TmapRouteResult
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -89,7 +89,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map),
         //TODO 경로 결과값에서 거리/1000 , 시간/60 으로 나누어 주어야함.
 
         val polylineOptions = PolylineOptions()
-        for(i in routeData.coordinates){
+        for (i in routeData.coordinates) {
             polylineOptions.add(LatLng(i[1].toDouble(), i[0].toDouble()))
             Timber.e("경로 위치 : $i[0] , $i[1]")
         }

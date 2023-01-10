@@ -1,6 +1,5 @@
 package com.example.foulette.ui.roulette
 
-import android.app.Dialog
 import android.content.DialogInterface
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -15,7 +14,6 @@ import com.example.foulette.databinding.DialogRouletteBinding
 import com.example.foulette.ui.base.BaseDialog
 import com.example.foulette.ui.main.MainViewModel
 import com.google.android.material.snackbar.Snackbar
-import timber.log.Timber
 import java.security.SecureRandom
 
 class RouletteDialog() : BaseDialog<DialogRouletteBinding>(R.layout.dialog_roulette) {

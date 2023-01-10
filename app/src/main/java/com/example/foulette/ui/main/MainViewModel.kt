@@ -2,13 +2,10 @@ package com.example.foulette.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.foulette.domain.models.HistoryResult
 import com.example.foulette.domain.models.RestaurantResult
 import com.example.foulette.domain.models.TmapRouteResult
 import com.example.foulette.domain.usecases.GetRestaurantListUseCase
 import com.example.foulette.domain.usecases.GetTmapRouteUseCase
-import com.example.foulette.domain.usecases.SaveHistoryUseCase
-import com.example.foulette.ui.roulette.MODE
 import com.example.foulette.ui.roulette.RouletteState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow

@@ -6,21 +6,16 @@ import android.content.DialogInterface
 import android.location.Location
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.IdRes
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.foulette.R
-import com.example.foulette.databinding.DialogRouletteBinding
 import com.example.foulette.databinding.FragmentMainBinding
 import com.example.foulette.domain.models.RestaurantResult
 import com.example.foulette.domain.models.TmapRouteResult
-import com.example.foulette.ui.base.BaseDialog
 import com.example.foulette.ui.base.BaseFragment
 import com.example.foulette.ui.roulette.RouletteDialog
 import com.example.foulette.ui.roulette.RouletteState
@@ -57,7 +52,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         viewModel.setRouletteState(RouletteState.closed)
     }
 
-    //TODO 권한 수정, 룰렛 stateFlow
+    //TODO 권한 수정
     private fun initView() {
         binding.apply {
             btnSearchFromMylocation.setOnClickListener {
@@ -83,6 +78,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
                 Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_WIFI_STATE
             )
         ) {
+            //TODO
         } else {
             EasyPermissions.requestPermissions(
                 host = this,
@@ -91,6 +87,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
                 perms = perms
             )
             Snackbar.make(requireView(), "권한이 필요합니다.", Snackbar.LENGTH_LONG).show()
+            //TODO 종료
         }
     }
 
@@ -142,7 +139,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
             requireActivity().supportFragmentManager,
             "Roulette"
         )
-        val toMap = MainFragmentDirections.actionMainFragmentToMapFragment(result,route)
+        val toMap = MainFragmentDirections.actionMainFragmentToMapFragment(result, route)
         requireView().findNavController().navigate(toMap)
     }
 
@@ -153,7 +150,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
     override fun onDismiss(dialog: DialogInterface?) {
         //toMap()
-        Snackbar.make(requireView(),"DISMISS",Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(requireView(), "DISMISS", Snackbar.LENGTH_SHORT).show()
     }
 
 }
