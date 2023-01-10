@@ -23,7 +23,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    buildFeatures{
+    buildFeatures {
         dataBinding true
     }
 
@@ -43,8 +43,6 @@ android {
 }
 
 dependencies {
-
-
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
@@ -55,13 +53,15 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'com.google.android.libraries.places:places:3.0.0'
+    implementation "androidx.fragment:fragment-ktx:1.5.0"
+    implementation "androidx.activity:activity-ktx:1.5.0"
 
     // Lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
-    implementation "androidx.activity:activity-ktx:1.5.5"
-    implementation "androidx.fragment:fragment-ktx:1.5.5"
+
+
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
@@ -86,15 +86,14 @@ dependencies {
     implementation "com.jakewharton.timber:timber:$timber_version"
 
     //Retrofit
-    implementation"com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2"
     implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
     implementation "com.squareup.retrofit2:converter-scalars:2.9.0"
 
     //OkHttp
-    implementation"com.squareup.okhttp3:okhttp:4.10.0"
-    implementation"com.squareup.okhttp3:logging-interceptor:4.10.0"
+    implementation "com.squareup.okhttp3:okhttp:4.10.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
 
     //EasyPermissions
     implementation 'com.vmadalin:easypermissions-ktx:1.0.0'
@@ -112,7 +111,6 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutine_version"
     testImplementation "com.google.truth:truth:1.1.2"
     testImplementation 'org.mockito:mockito-inline:3.4.0'
-    testImplementation 'junit:junit:4.13.2'
     testImplementation "io.mockk:mockk:$mockk_version"
     testImplementation "app.cash.turbine:turbine:0.5.2"
     testImplementation "android.arch.core:core-testing:1.1.1"
@@ -124,8 +122,7 @@ dependencies {
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
     implementation "com.squareup.moshi:moshi-adapters:$moshi_version"
-    implementation"com.squareup.retrofit2:converter-moshi:2.9.0"
-
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
 
     //Jackson
     implementation 'com.squareup.retrofit2:converter-jackson:2.9.0'

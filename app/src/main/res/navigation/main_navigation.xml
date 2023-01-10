@@ -28,10 +28,6 @@
         <argument
             android:name="routes"
             app:argType="com.example.foulette.domain.models.TmapRouteResult" />
-        <argument
-            android:name="Iserror"
-            app:argType="Boolean"
-            android:defaultValue="false"/>
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
