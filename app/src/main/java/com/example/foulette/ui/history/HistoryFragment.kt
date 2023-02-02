@@ -6,8 +6,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.findNavController
 import com.example.foulette.R
 import com.example.foulette.databinding.FragmentHistoryBinding
+import com.example.foulette.domain.models.RestaurantResult
+import com.example.foulette.domain.models.TmapRouteResult
 import com.example.foulette.ui.base.BaseFragment
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,11 +24,19 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(R.layout.fragment_h
         HistoryAdapter(
             deleteClicked = {
                 viewModel.deleteHistoryById(it.id)
-                Snackbar.make(binding.root,"삭제되었습니다.",Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, "삭제되었습니다.", Snackbar.LENGTH_SHORT).show()
             },
             itemClicked = {
-                //TODO Map 상태 관리
-                //val toMap = HistoryFragmentDirections.actionHistoryFragmentToMapFragment(it)
+                val restaurant = RestaurantResult(
+                    name = it.restaurantName,
+                    type = null,
+                    latitude = it.restaurantLocLat,
+                    longitude = it.restaurantLocLog,
+                    rate = null,
+                    ImgUrl = it.restaurantImgUrl
+                )
+                //val routes = TmapRouteResult()
+                //val toMap = HistoryFragmentDirections.actionHistoryFragmentToMapFragment(restaurant,routes)
                 //requireView().findNavController().navigate(toMap)
             }
         )

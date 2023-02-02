@@ -33,8 +33,7 @@ import java.security.SecureRandom
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
-class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
-    DialogInterface.OnDismissListener {
+class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var random by Delegates.notNull<Int>()
@@ -78,7 +77,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
                 Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_WIFI_STATE
             )
         ) {
-            //TODO
+            //TODO 실행
         } else {
             EasyPermissions.requestPermissions(
                 host = this,
@@ -87,7 +86,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
                 perms = perms
             )
             Snackbar.make(requireView(), "권한이 필요합니다.", Snackbar.LENGTH_LONG).show()
-            //TODO 종료
+            //TODO 앱 종료
         }
     }
 
@@ -115,7 +114,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
                             "내 위치",
                             result.name!!
                         )
-                        Timber.e("restaurantList : ${result.name}")
+                        Timber.e("restaurant : ${result.name}")
                     }
                 }
             }
@@ -123,9 +122,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.routesData.collectLatest {
-                    for (routes in it) {
-                        route = routes
-                        Timber.e("routeList : ${routes.totalTime}")
+                    if (it.isNotEmpty()){
+                        for (routes in it) {
+                            route = routes
+                            Timber.e("routeList : ${routes.totalTime}")
+                            //playRoulette이 여러번 호출되어서 내비게이션 오류가 발생한다.
+                        }
                         playRoulette()
                     }
                 }
@@ -139,20 +141,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
             requireActivity().supportFragmentManager,
             "Roulette"
         )
+        //TODO 내비게이션 에러!
         val toMap = MainFragmentDirections.actionMainFragmentToMapFragment(result, route)
         requireView().findNavController().navigate(toMap)
-    }
 
-    fun toMap() {
-        val toMap = MainFragmentDirections.actionMainFragmentToMapFragment(result, route)
-        findNavController().navigate(toMap)
-    }
-
-    override fun onDismiss(dialog: DialogInterface?) {
-        //toMap()
-        Snackbar.make(requireView(), "DISMISS", Snackbar.LENGTH_SHORT).show()
     }
 
 }
+
 
 

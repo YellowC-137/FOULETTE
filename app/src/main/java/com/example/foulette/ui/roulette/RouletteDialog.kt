@@ -67,6 +67,7 @@ class RouletteDialog() : BaseDialog<DialogRouletteBinding>(R.layout.dialog_roule
             setCanceledOnTouchOutside(false)
         }
         binding.apply {
+            val random = SecureRandom().nextInt(5) + 1
             roulette.addWheelItems(wheelItems)
             roulette.setLuckyWheelReachTheTarget {
                 Snackbar.make(
@@ -77,7 +78,7 @@ class RouletteDialog() : BaseDialog<DialogRouletteBinding>(R.layout.dialog_roule
                 viewModel.setRouletteState(RouletteState.finish)
                 dismiss()
             }
-            val random = SecureRandom().nextInt(5) + 1
+
             roulette.rotateWheelTo(random)
         }
     }

@@ -19,12 +19,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="@id/iv_restaurant"
-            android:text="@{history.id+1}"
-            app:layout_constraintBottom_toTopOf="@id/iv_restaurant"
             android:textColor="@color/black"
-            />
+            app:layout_constraintBottom_toTopOf="@id/iv_restaurant"
+            app:layout_constraintStart_toStartOf="@id/iv_restaurant"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/iv_restaurant"
@@ -42,6 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
+            android:padding="2dp"
             android:text="@{history.restaurantName}"
             android:textColor="@color/teal_200"
             android:textSize="16sp"
