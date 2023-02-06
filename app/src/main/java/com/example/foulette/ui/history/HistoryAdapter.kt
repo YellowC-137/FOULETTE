@@ -40,7 +40,8 @@ class HistoryAdapter(
             itemClicked: (HistoryResult) -> Unit
         ) = with(binding) {
             history = item
-            Glide.with(ivRestaurant.context).load(item.restaurantImgUrl).error(R.drawable.no_img).into(ivRestaurant)
+            Glide.with(ivRestaurant.context).load(item.restaurantImgUrl).error(R.drawable.no_img)
+                .into(ivRestaurant)
 
             ivDelete.setOnClickListener {
                 deleteClicked.invoke(item)

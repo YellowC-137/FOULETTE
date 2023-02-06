@@ -38,6 +38,8 @@ class RemoteRepositoryImpl @Inject constructor(
             for (food in restaurantList) {
                 launch {
                     val temp = RestaurantResult(
+                        id = food.place_id,
+                        price_level = food.price_level,
                         name = food.name,
                         type = food.types?.get(0),
                         latitude = food.geometry?.location?.lat,

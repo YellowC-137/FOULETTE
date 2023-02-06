@@ -28,6 +28,8 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(R.layout.fragment_h
             },
             itemClicked = {
                 val restaurant = RestaurantResult(
+                    id = "",
+                    price_level = 0,
                     name = it.restaurantName,
                     type = null,
                     latitude = it.restaurantLocLat,

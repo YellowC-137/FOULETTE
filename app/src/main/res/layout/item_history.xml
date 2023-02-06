@@ -16,66 +16,105 @@
         android:layout_margin="8dp"
         android:background="@drawable/shape_round_box">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/history_sub_container_top"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@id/iv_restaurant"
-            app:layout_constraintStart_toStartOf="@id/iv_restaurant"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/iv_restaurant"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="16dp"
-            android:src="@drawable/ic_launcher_foreground"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_restaurant_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:padding="2dp"
-            android:text="@{history.restaurantName}"
-            android:textColor="@color/teal_200"
-            android:textSize="16sp"
-            android:textStyle="bold|italic"
-            app:layout_constraintStart_toEndOf="@id/iv_restaurant"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_restaurant_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@{history.restaurantAddress}"
-            app:layout_constraintStart_toEndOf="@id/iv_restaurant"
-            app:layout_constraintTop_toBottomOf="@id/tv_restaurant_name" />
-
-        <TextView
-            android:id="@+id/tv_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="@{history.date}"
-            app:layout_constraintBottom_toBottomOf="@id/iv_restaurant"
-            app:layout_constraintStart_toEndOf="@id/iv_restaurant" />
-
-        <ImageView
-            android:id="@+id/iv_delete"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="16dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_baseline_delete_forever_24"
+            app:layout_constraintBottom_toTopOf="@id/history_sub_container_bottom"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toTopOf="@id/iv_restaurant"
+                app:layout_constraintStart_toStartOf="@id/iv_restaurant"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_restaurant"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="16dp"
+                android:src="@drawable/ic_launcher_foreground"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_restaurant_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:padding="2dp"
+                android:text="@{history.restaurantName}"
+                android:textColor="@color/teal_200"
+                android:textSize="16sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintStart_toEndOf="@id/iv_restaurant"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_restaurant_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@{history.restaurantAddress}"
+                app:layout_constraintStart_toEndOf="@id/iv_restaurant"
+                app:layout_constraintTop_toBottomOf="@id/tv_restaurant_name" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@{history.date}"
+                app:layout_constraintBottom_toBottomOf="@id/iv_restaurant"
+                app:layout_constraintStart_toEndOf="@id/iv_restaurant" />
+
+            <ImageView
+                android:id="@+id/iv_delete"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="16dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_baseline_delete_forever_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_btm"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/selector_img"
+                android:backgroundTint="@color/black"
+                app:layout_constraintEnd_toEndOf="@id/iv_delete"
+                app:layout_constraintStart_toStartOf="@id/iv_delete"
+                app:layout_constraintTop_toBottomOf="@id/iv_delete" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/history_sub_container_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/history_sub_container_top">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

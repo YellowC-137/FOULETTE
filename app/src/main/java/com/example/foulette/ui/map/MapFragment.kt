@@ -2,25 +2,23 @@ package com.example.foulette.ui.map
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.location.Geocoder
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.foulette.BuildConfig
 import com.example.foulette.FouletteApplication
 import com.example.foulette.R
-import com.example.foulette.databinding.FragmentMapBindingImpl
 import com.example.foulette.domain.models.HistoryResult
 import com.example.foulette.domain.models.RestaurantResult
 import com.example.foulette.domain.models.TmapRouteResult
 import com.example.foulette.ui.base.BaseFragment
 import com.example.foulette.ui.main.MainFragmentDirections
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -32,9 +30,9 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.maps.model.RoundCap
 import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -43,6 +41,7 @@ import java.util.*
 class MapFragment :
     BaseFragment<com.example.foulette.databinding.FragmentMapBinding>(R.layout.fragment_map),
     OnMapReadyCallback {
+
     private val viewModel: MapViewModel by viewModels()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var map: GoogleMap
@@ -61,24 +60,16 @@ class MapFragment :
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
-
-        binding.btnHome.setOnClickListener {
-            val toMain = MapFragmentDirections.actionMapFragmentToMainFragment()
-            requireView().findNavController().navigate(toMain)
+        binding.fabTohome.setOnClickListener {
+            val toHome = MapFragmentDirections.actionMapFragmentToMainFragment()
+            requireView().findNavController().navigate(toHome)
         }
+        getPhoto()
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         geocoder = Geocoder(requireContext())
-    }
-
-    private fun collectFlow() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-
-            }
-        }
     }
 
     @SuppressLint("MissingPermission")
@@ -87,17 +78,14 @@ class MapFragment :
         map.isMyLocationEnabled = true
         map.uiSettings.isMyLocationButtonEnabled = true
         val address = geocoder.getFromLocation(
-            selectedRestaurant.latitude!!,
-            selectedRestaurant.longitude!!,
-            1
+            selectedRestaurant.latitude!!, selectedRestaurant.longitude!!, 1
         )
         val now = SimpleDateFormat("yyyy-MM-dd hh:mm").format(Date(System.currentTimeMillis()))
         fusedLocationClient.lastLocation.addOnSuccessListener {
             map.moveCamera(
                 CameraUpdateFactory.newLatLngZoom(
                     LatLng(
-                        it.latitude,
-                        it.longitude
+                        it.latitude, it.longitude
                     ), 15F
                 )
             )
@@ -128,6 +116,48 @@ class MapFragment :
             MarkerOptions().position(final).title(selectedRestaurant.name).visible(true)
         )
         map.moveCamera(CameraUpdateFactory.newLatLng(final))
+    }
+
+
+    fun getPhoto() {
+        val placeId = selectedRestaurant.id
+        val fields = listOf(Place.Field.PHOTO_METADATAS)
+        val placeRequest = FetchPlaceRequest.newInstance(placeId, fields)
+        placesClient.fetchPlace(placeRequest).addOnSuccessListener { response: FetchPlaceResponse ->
+            val place = response.place
+
+            val metada = place.photoMetadatas
+            if (metada == null || metada.isEmpty()) {
+                return@addOnSuccessListener
+            }
+            val photoMetadata = metada.first()
+
+            val photoRequest =
+                FetchPhotoRequest.builder(photoMetadata).setMaxWidth(500)
+                    .setMaxHeight(300)
+                    .build()
+            placesClient.fetchPhoto(photoRequest)
+                .addOnSuccessListener { fetchPhotoResponse: FetchPhotoResponse ->
+                    val bitmap = fetchPhotoResponse.bitmap
+                    setBottomSheet(bitmap)
+                }.addOnFailureListener { exception: Exception ->
+                    if (exception is ApiException) {
+                        val statusCode = exception.statusCode
+                        Timber.e("IMG ERROR!  $statusCode")
+                        //TODO("Handle error with given status code.")
+                    }
+                }
+
+        }
+    }
+
+    private fun setBottomSheet(bitmap: Bitmap) {
+        binding.btmSheetMap.apply {
+            btmSheetImg.setImageBitmap(bitmap)
+            btmSheetTitle.text = selectedRestaurant.name
+            btmSheetDistance.text = "예상거리 : 약 ${routeData.totalDistance / 1000} KM"
+            btmSheetTime.text = "예상시간 : 약 ${routeData.totalTime / 60} 분"
+        }
     }
 
 }

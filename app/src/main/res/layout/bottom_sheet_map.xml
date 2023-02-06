@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data></data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_top_round"
+        android:padding="16dp"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="30dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btm_sheet_top_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/btm_sheet_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="식당이름"
+                app:layout_constraintStart_toEndOf="@id/btm_sheet_img"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="식당이름" />
+
+            <TextView
+                android:id="@+id/btm_sheet_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="총 시간"
+                app:layout_constraintStart_toEndOf="@id/btm_sheet_img"
+                app:layout_constraintTop_toBottomOf="@id/btm_sheet_title" />
+
+            <TextView
+                android:id="@+id/btm_sheet_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="총 거리"
+                app:layout_constraintStart_toEndOf="@id/btm_sheet_img"
+                app:layout_constraintTop_toBottomOf="@id/btm_sheet_time" />
+
+            <ImageView
+                android:id="@+id/btm_sheet_img"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/shape_round_box"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
