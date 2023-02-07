@@ -1,5 +1,6 @@
 package com.example.foulette.data.local.entity
 
+import android.graphics.Bitmap
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -10,34 +11,40 @@ data class HistoryEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val restaurantName: String,
-    val restaurantImgUrl: String,
+    val restaurantImg: Bitmap,
     val restaurantAddress: String,
     val restaurantLocLat: Double,
     val restaurantLocLog: Double,
+    val price: Int,
+    val rate: Double,
     @ColumnInfo(defaultValue = "CURRENT_TIMESTAMP")
     val date: String
 ) {
     fun toModel(): HistoryResult {
         return HistoryResult(
-           id =  id,
-           restaurantName= restaurantName,
-          restaurantImgUrl =   restaurantImgUrl,
-          restaurantAddress =   restaurantAddress,
-          restaurantLocLat =  restaurantLocLat,
-          restaurantLocLog =   restaurantLocLog,
-          date =   date
+            id = id,
+            restaurantName = restaurantName,
+            restaurantImg = restaurantImg,
+            restaurantAddress = restaurantAddress,
+            restaurantLocLat = restaurantLocLat,
+            restaurantLocLog = restaurantLocLog,
+            date = date,
+            price = price,
+            rate = rate
         )
     }
 }
 
 fun HistoryResult.toEntity(): HistoryEntity {
     return HistoryEntity(
-        id =  id,
-        restaurantName= restaurantName,
-        restaurantImgUrl =   restaurantImgUrl,
-        restaurantAddress =   restaurantAddress,
-        restaurantLocLat =  restaurantLocLat,
-        restaurantLocLog =   restaurantLocLog,
-        date =   date
+        id = id,
+        restaurantName = restaurantName,
+        restaurantImg = restaurantImg,
+        restaurantAddress = restaurantAddress,
+        restaurantLocLat = restaurantLocLat,
+        restaurantLocLog = restaurantLocLog,
+        date = date,
+        price = price,
+        rate = rate
     )
 }

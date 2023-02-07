@@ -11,11 +11,13 @@ object HistoryMapper {
                 HistoryResult(
                     id = it.id,
                     restaurantName = it.restaurantName,
-                    restaurantImgUrl = it.restaurantImgUrl,
+                    restaurantImg = it.restaurantImg,
                     restaurantAddress = it.restaurantAddress,
                     restaurantLocLat = it.restaurantLocLat,
                     restaurantLocLog = it.restaurantLocLog,
-                    date = it.date
+                    date = it.date,
+                    rate = it.rate,
+                    price = it.price
                 )
             )
         }

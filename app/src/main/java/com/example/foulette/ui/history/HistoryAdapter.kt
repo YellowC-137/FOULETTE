@@ -40,8 +40,10 @@ class HistoryAdapter(
             itemClicked: (HistoryResult) -> Unit
         ) = with(binding) {
             history = item
-            Glide.with(ivRestaurant.context).load(item.restaurantImgUrl).error(R.drawable.no_img)
-                .into(ivRestaurant)
+            ivRestaurant.setImageBitmap(item.restaurantImg)
+            val price = listOf("무료", "저렴함", "보통", "조금 비쌈", "매우 비쌈")
+            tvPrice.text = "가격대 : ${price[item.price]}"
+            rating.rating = item.rate.toFloat()
 
             ivDelete.setOnClickListener {
                 deleteClicked.invoke(item)

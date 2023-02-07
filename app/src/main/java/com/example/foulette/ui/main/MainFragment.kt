@@ -57,7 +57,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             btnSearchFromMylocation.setOnClickListener {
                 setData()
             }
-            fabFavorite.setOnClickListener {
+            fabHistory.setOnClickListener {
                 val toHistory = MainFragmentDirections.actionMainFragmentToHistoryFragment()
                 requireView().findNavController().navigate(toHistory)
             }

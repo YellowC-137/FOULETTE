@@ -35,7 +35,8 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(R.layout.fragment_h
                     latitude = it.restaurantLocLat,
                     longitude = it.restaurantLocLog,
                     rate = null,
-                    ImgUrl = it.restaurantImgUrl
+                    ImgUrl = "",//it.restaurantImg
+                address = it.restaurantAddress
                 )
                 //val routes = TmapRouteResult()
                 //val toMap = HistoryFragmentDirections.actionHistoryFragmentToMapFragment(restaurant,routes)

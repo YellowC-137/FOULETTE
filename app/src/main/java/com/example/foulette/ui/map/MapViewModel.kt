@@ -7,6 +7,7 @@ import com.example.foulette.domain.usecases.GetTmapRouteUseCase
 import com.example.foulette.domain.usecases.SaveHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,9 +18,14 @@ class MapViewModel @Inject constructor(
     fun saveHistory(
         historyResult: HistoryResult
     ) {
+        Timber.e("TEST : HISTORY SAVED")
         viewModelScope.launch {
             saveHistoryUseCase.invoke(historyResult)
         }
+    }
+
+    fun getRouteFromHistory(){
+
     }
 
 }

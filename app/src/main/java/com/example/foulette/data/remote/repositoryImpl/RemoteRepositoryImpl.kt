@@ -45,7 +45,8 @@ class RemoteRepositoryImpl @Inject constructor(
                         latitude = food.geometry?.location?.lat,
                         longitude = food.geometry?.location?.lng,
                         rate = food.rating,
-                        ImgUrl = food.icon
+                        ImgUrl = food.icon,
+                        address = food.vicinity
                     )
                     result.add(temp)
                 }

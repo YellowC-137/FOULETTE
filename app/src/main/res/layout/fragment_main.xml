@@ -13,7 +13,7 @@
         tools:context=".ui.main.MainFragment">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_favorite"
+            android:id="@+id/fab_history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -28,8 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:src="@drawable/ic_baseline_settings_24"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fab_favorite" />
+            app:layout_constraintTop_toBottomOf="@id/fab_history" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_search_from_mylocation"

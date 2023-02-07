@@ -14,5 +14,6 @@ data class RestaurantResult(
     val latitude: Double?,
     val longitude: Double?,
     val rate: Double?,
-    val ImgUrl: String?
+    val ImgUrl: String?,
+    val address:String?
 ): Parcelable

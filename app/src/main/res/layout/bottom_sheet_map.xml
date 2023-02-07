@@ -3,7 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data></data>
+    <data>
+
+        <variable
+            name="route"
+            type="com.example.foulette.domain.models.TmapRouteResult" />
+
+        <variable
+            name="restaurant"
+            type="com.example.foulette.domain.models.RestaurantResult" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -11,7 +20,7 @@
         android:background="@drawable/shape_top_round"
         android:padding="16dp"
         app:behavior_hideable="false"
-        app:behavior_peekHeight="30dp"
+        app:behavior_peekHeight="100dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +36,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="식당이름"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{restaurant.name}"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@id/btm_sheet_img"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="식당이름" />
@@ -37,18 +51,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="총 시간"
+                android:textColor="@color/black"
+                android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@id/btm_sheet_img"
-                app:layout_constraintTop_toBottomOf="@id/btm_sheet_title" />
+                app:layout_constraintTop_toBottomOf="@id/btm_sheet_title"
+                tools:text="시간" />
 
             <TextView
                 android:id="@+id/btm_sheet_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="총 거리"
+                android:textColor="@color/black"
+                android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@id/btm_sheet_img"
-                app:layout_constraintTop_toBottomOf="@id/btm_sheet_time" />
+                app:layout_constraintTop_toBottomOf="@id/btm_sheet_time"
+                tools:text="거리" />
 
             <ImageView
                 android:id="@+id/btm_sheet_img"
@@ -60,6 +78,29 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/btm_sheet_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/quantum_lightgreen"
+                app:layout_constraintStart_toEndOf="@id/btm_sheet_img"
+                app:layout_constraintTop_toBottomOf="@id/btm_sheet_distance"
+                tools:text="가격대" />
+
+            <RatingBar
+                android:id="@+id/btm_sheet_rate"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:stepSize="0.1"
+                app:layout_constraintStart_toEndOf="@id/btm_sheet_img"
+                app:layout_constraintTop_toBottomOf="@id/btm_sheet_price" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,10 +1,8 @@
 package com.example.foulette.ui.map
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.location.Geocoder
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -17,7 +15,6 @@ import com.example.foulette.domain.models.HistoryResult
 import com.example.foulette.domain.models.RestaurantResult
 import com.example.foulette.domain.models.TmapRouteResult
 import com.example.foulette.ui.base.BaseFragment
-import com.example.foulette.ui.main.MainFragmentDirections
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -48,7 +45,6 @@ class MapFragment :
     private lateinit var placesClient: PlacesClient
     private lateinit var selectedRestaurant: RestaurantResult
     private lateinit var routeData: TmapRouteResult
-    private lateinit var geocoder: Geocoder
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,20 +63,13 @@ class MapFragment :
         getPhoto()
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        geocoder = Geocoder(requireContext())
-    }
-
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
+        Timber.e("TEST : ON MAP READY")
         this.map = googleMap
         map.isMyLocationEnabled = true
         map.uiSettings.isMyLocationButtonEnabled = true
-        val address = geocoder.getFromLocation(
-            selectedRestaurant.latitude!!, selectedRestaurant.longitude!!, 1
-        )
-        val now = SimpleDateFormat("yyyy-MM-dd hh:mm").format(Date(System.currentTimeMillis()))
+
         fusedLocationClient.lastLocation.addOnSuccessListener {
             map.moveCamera(
                 CameraUpdateFactory.newLatLngZoom(
@@ -89,19 +78,7 @@ class MapFragment :
                     ), 15F
                 )
             )
-            viewModel.saveHistory(
-                historyResult = HistoryResult(
-                    id = 0,
-                    restaurantName = selectedRestaurant.name!!,
-                    restaurantImgUrl = selectedRestaurant.ImgUrl!!,
-                    restaurantAddress = address[0].subLocality,
-                    date = now,
-                    restaurantLocLat = selectedRestaurant.latitude!!,
-                    restaurantLocLog = selectedRestaurant.longitude!!
-                )
-            )
         }
-        //TODO 경로 결과값에서 거리/1000 , 시간/60 으로 나누어 주어야함.
 
         val polylineOptions = PolylineOptions()
         val final = LatLng(selectedRestaurant.latitude!!, selectedRestaurant.longitude!!)
@@ -120,6 +97,7 @@ class MapFragment :
 
 
     fun getPhoto() {
+        Timber.e("TEST : GET PHOTO")
         val placeId = selectedRestaurant.id
         val fields = listOf(Place.Field.PHOTO_METADATAS)
         val placeRequest = FetchPlaceRequest.newInstance(placeId, fields)
@@ -155,9 +133,33 @@ class MapFragment :
         binding.btmSheetMap.apply {
             btmSheetImg.setImageBitmap(bitmap)
             btmSheetTitle.text = selectedRestaurant.name
-            btmSheetDistance.text = "예상거리 : 약 ${routeData.totalDistance / 1000} KM"
+            val distance =
+                if (routeData.totalDistance / 1000 > 0) "${routeData.totalDistance / 1000} Km"
+                else "${routeData.totalDistance} m"
+            btmSheetDistance.text = "예상거리 : 약 $distance"
             btmSheetTime.text = "예상시간 : 약 ${routeData.totalTime / 60} 분"
+            val price = listOf("무료", "저렴함", "보통", "조금 비쌈", "매우 비쌈")
+            btmSheetPrice.text = "가격대 : ${price[selectedRestaurant.price_level!!]}"
+            btmSheetRate.rating = selectedRestaurant.rate!!.toFloat()
         }
+        saveHistory(bitmap)
+    }
+
+    private fun saveHistory(bitmap: Bitmap) {
+        val now = SimpleDateFormat("yyyy-MM-dd kk:mm").format(Date(System.currentTimeMillis()))
+        viewModel.saveHistory(
+            historyResult = HistoryResult(
+                id = 0,
+                restaurantName = selectedRestaurant.name!!,
+                restaurantImg = bitmap,
+                restaurantAddress = selectedRestaurant.address!!,
+                date = now,
+                restaurantLocLat = selectedRestaurant.latitude!!,
+                restaurantLocLog = selectedRestaurant.longitude!!,
+                rate = selectedRestaurant.rate!!,
+                price = selectedRestaurant.price_level!!
+            )
+        )
     }
 
 }
