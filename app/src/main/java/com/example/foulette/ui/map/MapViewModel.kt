@@ -12,20 +12,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MapViewModel @Inject constructor(
-    private val getTmapRouteUseCase: GetTmapRouteUseCase,
     private val saveHistoryUseCase: SaveHistoryUseCase
 ) : ViewModel() {
     fun saveHistory(
         historyResult: HistoryResult
     ) {
-        Timber.e("TEST : HISTORY SAVED")
         viewModelScope.launch {
             saveHistoryUseCase.invoke(historyResult)
         }
     }
-
-    fun getRouteFromHistory(){
-
-    }
-
 }

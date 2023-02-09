@@ -1,5 +1,7 @@
 package com.example.foulette.ui.history
 
+import android.annotation.SuppressLint
+import android.location.Location
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -12,14 +14,23 @@ import com.example.foulette.databinding.FragmentHistoryBinding
 import com.example.foulette.domain.models.RestaurantResult
 import com.example.foulette.domain.models.TmapRouteResult
 import com.example.foulette.ui.base.BaseFragment
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
+@SuppressLint("MissingPermission")
 @AndroidEntryPoint
 class HistoryFragment : BaseFragment<FragmentHistoryBinding>(R.layout.fragment_history) {
     private val viewModel: HistoryViewModel by viewModels()
+    private lateinit var route: TmapRouteResult
+    private lateinit var myLoc: Location
+    private lateinit var selectedRestaurant: RestaurantResult
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     private val pagingAdapter: HistoryAdapter by lazy {
         HistoryAdapter(
             deleteClicked = {
@@ -27,26 +38,25 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(R.layout.fragment_h
                 Snackbar.make(binding.root, "삭제되었습니다.", Snackbar.LENGTH_SHORT).show()
             },
             itemClicked = {
-                val restaurant = RestaurantResult(
-                    id = "",
-                    price_level = 0,
+                selectedRestaurant = RestaurantResult(
+                    id = it.placeId,
+                    price_level = it.price,
                     name = it.restaurantName,
                     type = null,
                     latitude = it.restaurantLocLat,
                     longitude = it.restaurantLocLog,
-                    rate = null,
+                    rate = it.rate,
                     ImgUrl = "",//it.restaurantImg
-                address = it.restaurantAddress
+                    address = it.restaurantAddress
                 )
-                //val routes = TmapRouteResult()
-                //val toMap = HistoryFragmentDirections.actionHistoryFragmentToMapFragment(restaurant,routes)
-                //requireView().findNavController().navigate(toMap)
+                getLoc()
             }
         )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         initRecyclerView()
         collectFlow()
         viewModel.getAllHistory()
@@ -57,6 +67,42 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(R.layout.fragment_h
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.historyData.collectLatest { it ->
                     pagingAdapter.submitData(it)
+                }
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getLoc() {
+        fusedLocationClient.lastLocation.addOnSuccessListener {
+            myLoc = it
+            viewModel.getRoute(
+                myLoc.longitude,
+                myLoc.latitude,
+                selectedRestaurant.longitude!!.toDouble(),
+                selectedRestaurant.latitude!!.toDouble(),
+                "내 위치",
+                selectedRestaurant.name!!
+            )
+            getRoute()
+        }
+    }
+
+    private fun getRoute() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.routesData.collectLatest {
+                    if (it.isNotEmpty()) {
+                        for (routes in it) {
+                            route = routes
+                        }
+                        val toMap =
+                            HistoryFragmentDirections.actionHistoryFragmentToMapFragment(
+                                selectedRestaurant,
+                                route
+                            )
+                        requireView().findNavController().navigate(toMap)
+                    }
                 }
             }
         }

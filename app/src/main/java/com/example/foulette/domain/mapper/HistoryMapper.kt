@@ -17,7 +17,8 @@ object HistoryMapper {
                     restaurantLocLog = it.restaurantLocLog,
                     date = it.date,
                     rate = it.rate,
-                    price = it.price
+                    price = it.price,
+                    placeId = it.placeId
                 )
             )
         }

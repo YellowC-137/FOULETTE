@@ -30,6 +30,10 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.*
 import dagger.hilt.android.AndroidEntryPoint
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
+import org.jsoup.select.Elements
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -61,6 +65,7 @@ class MapFragment :
             requireView().findNavController().navigate(toHome)
         }
         getPhoto()
+
     }
 
     @SuppressLint("MissingPermission")
@@ -97,19 +102,16 @@ class MapFragment :
 
 
     fun getPhoto() {
-        Timber.e("TEST : GET PHOTO")
         val placeId = selectedRestaurant.id
         val fields = listOf(Place.Field.PHOTO_METADATAS)
         val placeRequest = FetchPlaceRequest.newInstance(placeId, fields)
         placesClient.fetchPlace(placeRequest).addOnSuccessListener { response: FetchPlaceResponse ->
             val place = response.place
-
             val metada = place.photoMetadatas
             if (metada == null || metada.isEmpty()) {
                 return@addOnSuccessListener
             }
             val photoMetadata = metada.first()
-
             val photoRequest =
                 FetchPhotoRequest.builder(photoMetadata).setMaxWidth(500)
                     .setMaxHeight(300)
@@ -141,9 +143,26 @@ class MapFragment :
             val price = listOf("무료", "저렴함", "보통", "조금 비쌈", "매우 비쌈")
             btmSheetPrice.text = "가격대 : ${price[selectedRestaurant.price_level!!]}"
             btmSheetRate.rating = selectedRestaurant.rate!!.toFloat()
+
         }
         saveHistory(bitmap)
     }
+
+    private fun getMenu() {
+        val url = "https://map.naver.com/v5/search/${selectedRestaurant.name}"
+        val jsoup = Jsoup.connect(url)
+        val doc: Document = jsoup.get()
+        val docElements: Elements = doc.select("div.place_section_content")
+            .select("ul.ZUYk_")//.select("li.P_Yxm")
+        val imgDoc: Document = jsoup.get()
+        //div place_section_content
+        //ul ZUYk_
+        //li P_Yxm 쭉
+
+        //메뉴판 이미지
+        //div
+    }
+
 
     private fun saveHistory(bitmap: Bitmap) {
         val now = SimpleDateFormat("yyyy-MM-dd kk:mm").format(Date(System.currentTimeMillis()))
@@ -157,7 +176,8 @@ class MapFragment :
                 restaurantLocLat = selectedRestaurant.latitude!!,
                 restaurantLocLog = selectedRestaurant.longitude!!,
                 rate = selectedRestaurant.rate!!,
-                price = selectedRestaurant.price_level!!
+                price = selectedRestaurant.price_level!!,
+                placeId = selectedRestaurant.id!!
             )
         )
     }

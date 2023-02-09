@@ -86,13 +86,25 @@
 
             <ImageView
                 android:id="@+id/iv_delete"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_margin="16dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_baseline_delete_forever_24"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/quantum_googred" />
+
+            <ImageView
+                android:id="@+id/iv_route"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/baseline_follow_the_signs_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_delete" />
 
             <TextView
                 android:id="@+id/tv_price"

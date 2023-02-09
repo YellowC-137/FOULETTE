@@ -9,7 +9,7 @@ import com.example.foulette.data.local.entity.HistoryEntity
 
 @Database(
     entities = [HistoryEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

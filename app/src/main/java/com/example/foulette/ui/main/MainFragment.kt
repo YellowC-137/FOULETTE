@@ -41,7 +41,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private lateinit var route: TmapRouteResult
     private lateinit var myLoc: Location
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
@@ -122,11 +121,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.routesData.collectLatest {
-                    if (it.isNotEmpty()){
+                    if (it.isNotEmpty()) {
                         for (routes in it) {
                             route = routes
-                            Timber.e("routeList : ${routes.totalTime}")
-                            //playRoulette이 여러번 호출되어서 내비게이션 오류가 발생한다.
                         }
                         playRoulette()
                     }
@@ -141,7 +138,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             requireActivity().supportFragmentManager,
             "Roulette"
         )
-        //TODO 내비게이션 에러!
         val toMap = MainFragmentDirections.actionMainFragmentToMapFragment(result, route)
         requireView().findNavController().navigate(toMap)
 

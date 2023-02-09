@@ -17,6 +17,7 @@ data class HistoryEntity(
     val restaurantLocLog: Double,
     val price: Int,
     val rate: Double,
+    val placeId:String,
     @ColumnInfo(defaultValue = "CURRENT_TIMESTAMP")
     val date: String
 ) {
@@ -30,7 +31,8 @@ data class HistoryEntity(
             restaurantLocLog = restaurantLocLog,
             date = date,
             price = price,
-            rate = rate
+            rate = rate,
+            placeId = placeId
         )
     }
 }
@@ -45,6 +47,7 @@ fun HistoryResult.toEntity(): HistoryEntity {
         restaurantLocLog = restaurantLocLog,
         date = date,
         price = price,
-        rate = rate
+        rate = rate,
+        placeId = placeId
     )
 }

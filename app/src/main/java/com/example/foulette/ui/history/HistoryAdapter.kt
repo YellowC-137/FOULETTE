@@ -49,7 +49,7 @@ class HistoryAdapter(
                 deleteClicked.invoke(item)
             }
 
-            historyContainer.setOnClickListener {
+            ivRoute.setOnClickListener {
                 itemClicked.invoke(item)
             }
 

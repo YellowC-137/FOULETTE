@@ -65,7 +65,6 @@ class MainViewModel @Inject constructor(
                 )
             )
             //x,y가 반대임 , x:127~ y:37~
-            Timber.e("getRoute")
         }
     }
 

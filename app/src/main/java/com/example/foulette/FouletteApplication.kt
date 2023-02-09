@@ -21,6 +21,4 @@ class FouletteApplication : Application() {
     }
 }
 
-//TODO 1.tmap mapper , 2.flow collect 실행 , 3.saveusecase hilt 오류
-
 

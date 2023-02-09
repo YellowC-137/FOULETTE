@@ -14,5 +14,6 @@ data class HistoryResult(
     val restaurantLocLog: Double,
     val date: String,
     val rate: Double,
-    val price: Int
+    val price: Int,
+    val placeId:String
 ) : Parcelable

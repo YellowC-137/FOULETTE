@@ -64,7 +64,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
 
 
-
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
@@ -129,5 +128,7 @@ dependencies {
     //Jackson
     implementation 'com.squareup.retrofit2:converter-jackson:2.9.0'
 
-
+    //jsoup
+    implementation 'org.jsoup:jsoup:1.14.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:coroutine_version'
 }
