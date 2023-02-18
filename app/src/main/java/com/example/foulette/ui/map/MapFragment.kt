@@ -150,10 +150,12 @@ class MapFragment :
 
     private fun getMenu() {
         val url = "https://map.naver.com/v5/search/${selectedRestaurant.name}"
-        val jsoup = Jsoup.connect(url)
+        val jsoup = Jsoup.connect(url).timeout(1000*5)
         val doc: Document = jsoup.get()
+        doc.select("")
         val docElements: Elements = doc.select("div.place_section_content")
             .select("ul.ZUYk_")//.select("li.P_Yxm")
+
         val imgDoc: Document = jsoup.get()
         //div place_section_content
         //ul ZUYk_

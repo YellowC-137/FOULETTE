@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foulette.domain.models.RestaurantResult
 import com.example.foulette.domain.models.TmapRouteResult
+import com.example.foulette.domain.usecases.GetMenuUseCase
 import com.example.foulette.domain.usecases.GetRestaurantListUseCase
 import com.example.foulette.domain.usecases.GetTmapRouteUseCase
 import com.example.foulette.ui.roulette.RouletteState
@@ -20,6 +21,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val getRestaurantListUseCase: GetRestaurantListUseCase,
     private val getTmapRouteUseCase: GetTmapRouteUseCase,
+    private val getMenuUseCase: GetMenuUseCase
 ) : ViewModel() {
 
     private val _restaurantList = MutableStateFlow<List<RestaurantResult>>(emptyList())
@@ -65,6 +67,15 @@ class MainViewModel @Inject constructor(
                 )
             )
             //x,y가 반대임 , x:127~ y:37~
+        }
+    }
+
+    fun getMenu(url: String) {
+        viewModelScope.launch {
+            val menus = getMenuUseCase(url)
+            for (menu in menus) {
+                Timber.e("메뉴 테스트 " + menu.menu_name)
+            }
         }
     }
 

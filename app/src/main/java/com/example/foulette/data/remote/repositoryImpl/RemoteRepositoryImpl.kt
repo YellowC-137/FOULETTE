@@ -4,6 +4,7 @@ import com.example.foulette.data.remote.datasource.RemoteDataSource
 import com.example.foulette.data.remote.response.places.Result
 import com.example.foulette.data.remote.response.tmap.LineString
 import com.example.foulette.di.DispatcherModule
+import com.example.foulette.domain.models.JsoupMenu
 import com.example.foulette.domain.models.RestaurantResult
 import com.example.foulette.domain.models.TmapRouteResult
 import com.example.foulette.domain.repositories.RestaurantRepository
@@ -88,6 +89,33 @@ class RemoteRepositoryImpl @Inject constructor(
                         }
                     }
 
+                }
+                is com.example.foulette.domain.models.Result.Error -> {
+                    return@withContext
+                }
+            }
+        }
+
+        return result
+    }
+
+    override suspend fun getMenu(url: String): List<JsoupMenu> {
+        val result = ArrayList<JsoupMenu>()
+        withContext(dispatcherIO) {
+            val responseMenuJob = async {
+                remoteDataSource.getMenu(url)
+            }
+            when (val menuList = responseMenuJob.await()) {
+                is com.example.foulette.domain.models.Result.Success -> {
+                    for (menu in menuList.data) {
+                        val resultMenu = JsoupMenu(
+                            menu_name = menu.menu_name,
+                            menu_price = menu.menu_price,
+                            menu_pic = menu.menu_pic,
+                            menu_description = menu.menu_description
+                        )
+                        result.add(resultMenu)
+                    }
                 }
                 is com.example.foulette.domain.models.Result.Error -> {
                     return@withContext

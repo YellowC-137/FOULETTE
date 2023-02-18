@@ -23,24 +23,19 @@
       <change beforePath="$PROJECT_DIR$/.gradle/configuration-cache/5qizzoefmb43n5xkjnj8ucozg/buildfingerprint.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/configuration-cache/5qizzoefmb43n5xkjnj8ucozg/buildfingerprint.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/configuration-cache/5qizzoefmb43n5xkjnj8ucozg/work.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/configuration-cache/5qizzoefmb43n5xkjnj8ucozg/work.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/FouletteApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/FouletteApplication.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/data/local/entity/HistoryEntity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/data/local/entity/HistoryEntity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/domain/models/HistoryResult.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/domain/models/HistoryResult.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/ui/history/HistoryAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/ui/history/HistoryAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/ui/history/HistoryFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/ui/history/HistoryFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/ui/history/HistoryViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/ui/history/HistoryViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/data/remote/datasource/RemoteDataSource.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/data/remote/datasource/RemoteDataSource.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/data/remote/datasourceimpl/RemoteDataSourceImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/data/remote/datasourceimpl/RemoteDataSourceImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/data/remote/repositoryImpl/RemoteRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/data/remote/repositoryImpl/RemoteRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/data/remote/response/jsoup/menu.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/domain/models/JsoupMenu.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/domain/models/JsoupMenu.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/domain/repositories/RestaurantRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/domain/repositories/RestaurantRepository.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/ui/main/MainFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/ui/main/MainFragment.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/ui/main/MainViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/ui/main/MainViewModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/ui/map/MapFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/ui/map/MapFragment.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/ui/map/MapViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/foulette/ui/map/MapViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/bottom_sheet_map.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/bottom_sheet_map.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_history.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_history.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/main_navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/navigation/main_navigation.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/kotlin/sessions/kotlin-compiler-17980421465471251498.salive" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/sessions/kotlin-compiler-11530353722843479827.salive" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,11 +112,11 @@
       <list>
         <option value="valueResourceFile" />
         <option value="Class" />
-        <option value="Kotlin Interface" />
         <option value="resourceFile" />
         <option value="layoutResourceFile" />
-        <option value="Kotlin Class" />
+        <option value="Kotlin Interface" />
         <option value="Kotlin Data Class" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -150,17 +145,20 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;PROJECT_TRUSTED_KEY&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/zdrgn/GIT/AndroidStudy/shopper&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propDebugger&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "PROJECT_TRUSTED_KEY": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "last_opened_file_path": "C:/Users/zdrgn/GIT/AndroidStudy/shopper",
+    "project.structure.last.edited": "SDK Location",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "project.propDebugger",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="PsdUISettings">
     <option name="MODULE_TAB" value="Properties" />
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
