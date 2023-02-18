@@ -10,12 +10,13 @@ import com.example.foulette.data.remote.response.places.RestaurantListResultResp
 import com.example.foulette.data.remote.response.tmap.TmapRouteResultResponse
 import com.example.foulette.domain.models.Result
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Element
+import org.jsoup.select.Elements
 import javax.inject.Inject
 
 class RemoteDataSourceImpl @Inject constructor(
     private val restaurantListService: RestaurantListService,
-    private val tmapRouteService: TmapRouteService,
-    private val jsoupMenuService: JsoupMenuService
+    private val tmapRouteService: TmapRouteService
 ) : RemoteDataSource {
     override suspend fun getRestaurantList(myLoc: String): Result<RestaurantListResultResponse> {
         val response = restaurantListService.getRestaurantList(myLoc)
@@ -58,31 +59,31 @@ class RemoteDataSourceImpl @Inject constructor(
             Result.Error(e)
         }
     }
-
+    /*
     override suspend fun getMenu(url: String): Result<List<JsoupMenuResponse>> {
-        val response = jsoupMenuService.getMenu(url)
         val doc = Jsoup.connect(url).get()
         val menuList = mutableListOf<JsoupMenuResponse>()
+        val subList = listOf("jnwQZ", "mpoxR")
         //div place_section_content
         //ul ZUYk_
         //li P_Yxm 쭉
         //span zPfVt 가게 설명
-        val menuElement = doc.select("")
-        for (element in menuElement) {
-            val menuName = element.select("").text()
-            val menuPrice = element.select("").text()
-            val menuPic = element.select("")
-            val menuDescription = element.select("").text()
+        val menuElement: Element? = doc.select("div.place_section_content:has(ul.jnwQZ)").first()
+        val subMenu: Elements = menuElement?.select("ul.jnwQZ > li") ?: Elements()
+        val nameElements = doc.select("div[class=place_section_content] ul[class=jnwQZ] li a")
+        val priceElements = doc.select("div[class=place_section_content] ul[class=jnwQZ] li em")
+
+        for (element in nameElements.indices) {
+            val menuName = nameElements[element].text()
+            val menuPrice = priceElements[element].text()
             val menu = JsoupMenuResponse(
                 menu_name = menuName,
-                menu_description = menuDescription,
-                menu_pic = menuPic.toString(),
                 menu_price = menuPrice
             )
             menuList.add(menu)
         }
         return try {
-            if (response.isNotEmpty()) {
+            if (menuList.size != 0) {
                 Result.Success(menuList)
             } else {
                 Result.Error(IllegalArgumentException("ERROR"))
@@ -91,6 +92,6 @@ class RemoteDataSourceImpl @Inject constructor(
             Result.Error(e)
         }
     }
-
+*/
 }
 

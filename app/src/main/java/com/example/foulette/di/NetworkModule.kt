@@ -1,8 +1,11 @@
 package com.example.foulette.di
 
 import com.example.foulette.BuildConfig
+import com.example.foulette.data.remote.api.JsoupMenuService
 import com.example.foulette.data.remote.api.RestaurantListService
 import com.example.foulette.data.remote.api.TmapRouteService
+import com.example.foulette.data.remote.datasourceimpl.JsoupMenuServiceImpl
+import com.example.foulette.data.remote.datasourceimpl.RemoteDataSourceImpl
 import com.example.foulette.util.SEARCH_NEARBY
 import com.example.foulette.util.TMAP_ROUTE
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -37,6 +40,8 @@ object NetworkModule {
         }
     }
     */
+
+
 
 
     //Retrofit
@@ -94,6 +99,11 @@ object NetworkModule {
         return retrofit.create(TmapRouteService::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun provideJsoupMenuService(remoteDataSource: RemoteDataSourceImpl): JsoupMenuService {
+        return JsoupMenuServiceImpl(remoteDataSource)
+    }
     //HttpClient
 
     @Provides

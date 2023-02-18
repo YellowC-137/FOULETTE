@@ -1,5 +1,6 @@
 package com.example.foulette.data.remote.repositoryImpl
 
+import com.example.foulette.data.remote.api.JsoupMenuService
 import com.example.foulette.data.remote.datasource.RemoteDataSource
 import com.example.foulette.data.remote.response.places.Result
 import com.example.foulette.data.remote.response.tmap.LineString
@@ -17,6 +18,7 @@ import javax.inject.Inject
 
 class RemoteRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
+    private val jsoupMenuService: JsoupMenuService,
     @DispatcherModule.DispatcherIO private val dispatcherIO: CoroutineDispatcher
 ) : RestaurantRepository {
     override suspend fun getRestaurantList(myLoc: String): List<RestaurantResult> {
@@ -103,26 +105,23 @@ class RemoteRepositoryImpl @Inject constructor(
         val result = ArrayList<JsoupMenu>()
         withContext(dispatcherIO) {
             val responseMenuJob = async {
-                remoteDataSource.getMenu(url)
+                jsoupMenuService.getMenu(url)
             }
-            when (val menuList = responseMenuJob.await()) {
-                is com.example.foulette.domain.models.Result.Success -> {
-                    for (menu in menuList.data) {
-                        val resultMenu = JsoupMenu(
-                            menu_name = menu.menu_name,
-                            menu_price = menu.menu_price,
-                            menu_pic = menu.menu_pic,
-                            menu_description = menu.menu_description
-                        )
-                        result.add(resultMenu)
-                    }
+            val menuList = responseMenuJob.await()
+            if (menuList.isNotEmpty()) {
+                Timber.e("테스트 : ON")
+                for (menu in menuList) {
+                    val resultMenu = JsoupMenu(
+                        menu_name = menu.menu_name,
+                        menu_price = menu.menu_price
+                    )
+                    result.add(resultMenu)
                 }
-                is com.example.foulette.domain.models.Result.Error -> {
-                    return@withContext
-                }
+            } else {
+                Timber.e("테스트 : NULL")
+                return@withContext
             }
         }
-
         return result
     }
 

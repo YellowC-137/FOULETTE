@@ -17,7 +17,9 @@ interface RemoteDataSource {
         endName: String
     ): Result<TmapRouteResultResponse>
 
+    /*
     suspend fun getMenu(
         url: String
     ): Result<List<JsoupMenuResponse>>
-}
+    */
+    }

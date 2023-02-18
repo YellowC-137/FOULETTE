@@ -51,6 +51,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         initView()
         collectFlow()
         viewModel.setRouletteState(RouletteState.closed)
+        val url = "https://map.naver.com/v5/search/소호정청계산점"
+        viewModel.getMenu(url)
     }
 
     //TODO 권한 수정

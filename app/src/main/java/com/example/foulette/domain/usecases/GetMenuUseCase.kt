@@ -7,7 +7,6 @@ import javax.inject.Inject
 
 
 class GetMenuUseCase @Inject constructor(private val menuRepository: RestaurantRepository) {
-    suspend operator fun invoke(url: String): List<JsoupMenu> {
-        return menuRepository.getMenu(url)
-    }
+    suspend operator fun invoke(url: String) = menuRepository.getMenu(url)
+
 }
