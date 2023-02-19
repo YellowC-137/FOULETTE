@@ -2,6 +2,7 @@ package com.example.foulette.data.remote.repositoryImpl
 
 import com.example.foulette.data.remote.api.JsoupMenuService
 import com.example.foulette.data.remote.datasource.RemoteDataSource
+import com.example.foulette.data.remote.response.jsoup.JsoupMenuResponse
 import com.example.foulette.data.remote.response.places.Result
 import com.example.foulette.data.remote.response.tmap.LineString
 import com.example.foulette.di.DispatcherModule
@@ -40,6 +41,12 @@ class RemoteRepositoryImpl @Inject constructor(
 
             for (food in restaurantList) {
                 launch {
+                    val pic = arrayListOf<String>()
+                    if (food.photos != null) {
+                        for (p in food.photos) {
+                            pic.add(p.photo_reference)
+                        }
+                    }
                     val temp = RestaurantResult(
                         id = food.place_id,
                         price_level = food.price_level,
@@ -49,7 +56,8 @@ class RemoteRepositoryImpl @Inject constructor(
                         longitude = food.geometry?.location?.lng,
                         rate = food.rating,
                         ImgUrl = food.icon,
-                        address = food.vicinity
+                        address = food.vicinity,
+                        photos = pic
                     )
                     result.add(temp)
                 }
@@ -104,11 +112,15 @@ class RemoteRepositoryImpl @Inject constructor(
     override suspend fun getMenu(url: String): List<JsoupMenu> {
         val result = ArrayList<JsoupMenu>()
         withContext(dispatcherIO) {
+            val test = jsoupMenuService.getMenu(url)
+            Timber.e("테스트 : 리포지토리 사이즈 : ${test.size}")
+            /*
             val responseMenuJob = async {
-                jsoupMenuService.getMenu(url)
+                val a = jsoupMenuService.getMenu(url)
+                Timber.e("테스트 : 리포지토리 사이즈 : ${a.size}")
             }
             val menuList = responseMenuJob.await()
-            if (menuList.isNotEmpty()) {
+            if (menuList.isNotNull()) {
                 Timber.e("테스트 : ON")
                 for (menu in menuList) {
                     val resultMenu = JsoupMenu(
@@ -122,8 +134,10 @@ class RemoteRepositoryImpl @Inject constructor(
                 return@withContext
             }
         }
+             */
+            //return result
+        }
         return result
+
     }
-
-
 }

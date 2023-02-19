@@ -76,7 +76,7 @@
                 android:layout_margin="8dp"
                 android:background="@drawable/shape_round_box"
                 android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/btm_sheet_rcv"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -101,6 +101,16 @@
                 android:stepSize="0.1"
                 app:layout_constraintStart_toEndOf="@id/btm_sheet_img"
                 app:layout_constraintTop_toBottomOf="@id/btm_sheet_price" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/btm_sheet_rcv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btm_sheet_rate"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

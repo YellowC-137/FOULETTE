@@ -8,6 +8,9 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.foulette.BuildConfig
 import com.example.foulette.FouletteApplication
 import com.example.foulette.R
@@ -133,6 +136,10 @@ class MapFragment :
 
     private fun setBottomSheet(bitmap: Bitmap) {
         binding.btmSheetMap.apply {
+            val adapter = BottomSheetPhotoAdapter()
+            btmSheetRcv.layoutManager = GridLayoutManager(this.btmSheetRcv.context, 2)
+            adapter.submitList(selectedRestaurant.photos)
+            Timber.e("IMAGE : ${selectedRestaurant.photos?.size}")
             btmSheetImg.setImageBitmap(bitmap)
             btmSheetTitle.text = selectedRestaurant.name
             val distance =
@@ -141,30 +148,14 @@ class MapFragment :
             btmSheetDistance.text = "예상거리 : 약 $distance"
             btmSheetTime.text = "예상시간 : 약 ${routeData.totalTime / 60} 분"
             val price = listOf("무료", "저렴함", "보통", "조금 비쌈", "매우 비쌈")
-            btmSheetPrice.text = "가격대 : ${price[selectedRestaurant.price_level!!]}"
+            if (selectedRestaurant.price_level != null ){
+                btmSheetPrice.text = "가격대 : ${price[selectedRestaurant.price_level!!]}"
+            }
             btmSheetRate.rating = selectedRestaurant.rate!!.toFloat()
 
         }
         saveHistory(bitmap)
     }
-
-    private fun getMenu() {
-        val url = "https://map.naver.com/v5/search/${selectedRestaurant.name}"
-        val jsoup = Jsoup.connect(url).timeout(1000*5)
-        val doc: Document = jsoup.get()
-        doc.select("")
-        val docElements: Elements = doc.select("div.place_section_content")
-            .select("ul.ZUYk_")//.select("li.P_Yxm")
-
-        val imgDoc: Document = jsoup.get()
-        //div place_section_content
-        //ul ZUYk_
-        //li P_Yxm 쭉
-
-        //메뉴판 이미지
-        //div
-    }
-
 
     private fun saveHistory(bitmap: Bitmap) {
         val now = SimpleDateFormat("yyyy-MM-dd kk:mm").format(Date(System.currentTimeMillis()))

@@ -47,7 +47,8 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(R.layout.fragment_h
                     longitude = it.restaurantLocLog,
                     rate = it.rate,
                     ImgUrl = "",//it.restaurantImg
-                    address = it.restaurantAddress
+                    address = it.restaurantAddress,
+                    photos = null
                 )
                 getLoc()
             }
