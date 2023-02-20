@@ -7,11 +7,11 @@
 
         <variable
             name="route"
-            type="com.example.foulette.domain.models.TmapRouteResult" />
+            type="yellowc.example.foulette.domain.models.TmapRouteResult" />
 
         <variable
             name="restaurant"
-            type="com.example.foulette.domain.models.RestaurantResult" />
+            type="yellowc.example.foulette.domain.models.RestaurantResult" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

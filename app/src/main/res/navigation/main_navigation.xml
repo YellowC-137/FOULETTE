@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.foulette.ui.main.MainFragment"
+        android:name="yellowc.example.foulette.ui.main.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_main">
         <action
@@ -19,22 +19,22 @@
     </fragment>
     <fragment
         android:id="@+id/mapFragment"
-        android:name="com.example.foulette.ui.map.MapFragment"
+        android:name="yellowc.example.foulette.ui.map.MapFragment"
         android:label="MapFragment"
         tools:layout="@layout/fragment_map">
         <argument
             android:name="restaurant"
-            app:argType="com.example.foulette.domain.models.RestaurantResult" />
+            app:argType="yellowc.example.foulette.domain.models.RestaurantResult" />
         <argument
             android:name="routes"
-            app:argType="com.example.foulette.domain.models.TmapRouteResult" />
+            app:argType="yellowc.example.foulette.domain.models.TmapRouteResult" />
         <action
             android:id="@+id/action_mapFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
-        android:name="com.example.foulette.ui.history.HistoryFragment"
+        android:name="yellowc.example.foulette.ui.history.HistoryFragment"
         android:label="fragment_history"
         tools:layout="@layout/fragment_history">
         <action
