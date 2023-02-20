@@ -7,6 +7,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class TmapRouteResult(
     val coordinates : List<List<String>>,
-    val totalDistance : Int, // m
-    val totalTime : Int // 초
+    val totalDistance : Int,
+    val totalTime : Int
 ) : Parcelable

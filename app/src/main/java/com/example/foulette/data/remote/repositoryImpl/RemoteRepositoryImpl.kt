@@ -49,7 +49,7 @@ class RemoteRepositoryImpl @Inject constructor(
                     }
                     val temp = RestaurantResult(
                         id = food.place_id,
-                        price_level = food.price_level,
+                        price_level = food.price_Level,
                         name = food.name,
                         type = food.types?.get(0),
                         latitude = food.geometry?.location?.lat,
@@ -112,16 +112,11 @@ class RemoteRepositoryImpl @Inject constructor(
     override suspend fun getMenu(url: String): List<JsoupMenu> {
         val result = ArrayList<JsoupMenu>()
         withContext(dispatcherIO) {
-            val test = jsoupMenuService.getMenu(url)
-            Timber.e("테스트 : 리포지토리 사이즈 : ${test.size}")
-            /*
             val responseMenuJob = async {
-                val a = jsoupMenuService.getMenu(url)
-                Timber.e("테스트 : 리포지토리 사이즈 : ${a.size}")
+                jsoupMenuService.getMenu(url)
             }
             val menuList = responseMenuJob.await()
-            if (menuList.isNotNull()) {
-                Timber.e("테스트 : ON")
+            if (menuList.isNotEmpty()) {
                 for (menu in menuList) {
                     val resultMenu = JsoupMenu(
                         menu_name = menu.menu_name,
@@ -130,14 +125,10 @@ class RemoteRepositoryImpl @Inject constructor(
                     result.add(resultMenu)
                 }
             } else {
-                Timber.e("테스트 : NULL")
                 return@withContext
             }
         }
-             */
-            //return result
+            return result
         }
-        return result
 
-    }
 }

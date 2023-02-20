@@ -19,8 +19,6 @@ class HistoryPagingSource(
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
         }
     }
-
-
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, HistoryEntity> {
         val page = params.key ?: 1
         return try {

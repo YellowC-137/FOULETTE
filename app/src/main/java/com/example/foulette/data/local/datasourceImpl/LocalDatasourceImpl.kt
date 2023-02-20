@@ -11,7 +11,6 @@ class LocalDatasourceImpl @Inject constructor(
 ) : LocalDataSource {
     override fun getAll(): Flow<List<HistoryEntity>> = historyDao.getAll()
 
-
     override suspend fun saveHistory(historyEntity: HistoryEntity) {
         historyDao.saveHistory(historyEntity)
     }

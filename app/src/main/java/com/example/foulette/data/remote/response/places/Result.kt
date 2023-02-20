@@ -1,6 +1,9 @@
 package com.example.foulette.data.remote.response.places
 
+import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
+import javax.annotation.Nullable
+import javax.annotation.ParametersAreNonnullByDefault
 
 @Serializable
 data class Result(
@@ -14,7 +17,7 @@ data class Result(
     val photos: List<Photo>? = null,
     val place_id: String? = null,
     val plus_code: PlusCode? = null,
-    val price_level: Int? = null, //가격대 0~4
+    @Nullable val price_Level: Int? = 3, //가격대 0~4
     val rating: Double? = null, //평점 1~5
     val reference: String? = null,
     val scope: String? = null,

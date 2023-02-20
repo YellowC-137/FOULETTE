@@ -59,39 +59,6 @@ class RemoteDataSourceImpl @Inject constructor(
             Result.Error(e)
         }
     }
-    /*
-    override suspend fun getMenu(url: String): Result<List<JsoupMenuResponse>> {
-        val doc = Jsoup.connect(url).get()
-        val menuList = mutableListOf<JsoupMenuResponse>()
-        val subList = listOf("jnwQZ", "mpoxR")
-        //div place_section_content
-        //ul ZUYk_
-        //li P_Yxm 쭉
-        //span zPfVt 가게 설명
-        val menuElement: Element? = doc.select("div.place_section_content:has(ul.jnwQZ)").first()
-        val subMenu: Elements = menuElement?.select("ul.jnwQZ > li") ?: Elements()
-        val nameElements = doc.select("div[class=place_section_content] ul[class=jnwQZ] li a")
-        val priceElements = doc.select("div[class=place_section_content] ul[class=jnwQZ] li em")
 
-        for (element in nameElements.indices) {
-            val menuName = nameElements[element].text()
-            val menuPrice = priceElements[element].text()
-            val menu = JsoupMenuResponse(
-                menu_name = menuName,
-                menu_price = menuPrice
-            )
-            menuList.add(menu)
-        }
-        return try {
-            if (menuList.size != 0) {
-                Result.Success(menuList)
-            } else {
-                Result.Error(IllegalArgumentException("ERROR"))
-            }
-        } catch (e: Exception) {
-            Result.Error(e)
-        }
-    }
-*/
 }
 

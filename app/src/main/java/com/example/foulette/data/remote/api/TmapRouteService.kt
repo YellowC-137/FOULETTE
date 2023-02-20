@@ -21,7 +21,6 @@ interface TmapRouteService {
     ): Response<TmapRouteResultResponse>
 }
 
-
 @Serializable
 data class TmapBody(
     val startX: Double,

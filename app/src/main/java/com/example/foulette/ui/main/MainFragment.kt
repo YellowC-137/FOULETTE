@@ -3,6 +3,7 @@ package com.example.foulette.ui.main
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.DialogInterface
+
 import android.location.Location
 import android.os.Bundle
 import android.view.View
@@ -28,12 +29,11 @@ import com.vmadalin.easypermissions.annotations.AfterPermissionGranted
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
-import org.jsoup.select.Elements
 import timber.log.Timber
 import java.security.SecureRandom
 import kotlin.properties.Delegates
+
+
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
@@ -51,9 +51,75 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         initView()
         collectFlow()
         viewModel.setRouletteState(RouletteState.closed)
-        val url = "https://map.naver.com/v5/search/소호정청계산점"
-        viewModel.getMenu(url)
+
     }
+
+    /*
+    private fun chromedriver() {
+        // WebDriverManager를 사용하여 ChromeDriver 설치 및 버전 관리
+        WebDriverManager.chromedriver().setup()
+
+        // Chrome 옵션 설정
+        val options = ChromeOptions()
+        options.addArguments("--disable-gpu")
+        options.addArguments("--no-sandbox")
+        options.addArguments("--disable-dev-shm-usage")
+
+        // ChromeDriver 객체 생성
+        val driver: WebDriver = ChromeDriver(options)
+
+        // 네이버 지도 웹사이트 접속
+        driver.get("https://map.naver.com/v5/?c=13.63,0,0,0,dh&isCorrectAnswer=true")
+
+        // 검색창에 검색어 입력 및 검색 버튼 클릭
+        val searchBox: WebElement = driver.findElement(By.className("input_search"))
+        searchBox.sendKeys("소호정 청계산점")
+        searchBox.submit()
+
+        // 식당 링크 클릭
+        val restaurantLink: WebElement =
+            driver.findElement(By.xpath("//a[contains(@href,'place') and contains(@href,'menu')][1]"))
+        restaurantLink.click()
+
+        // 메뉴 정보 추출
+        val menuSection: WebElement =
+            driver.findElement(By.xpath("//section[contains(@class,'_3mNZz') and contains(@class,'_1aA5j')]"))
+        val menuItems: List<WebElement> = menuSection.findElements(By.tagName("li"))
+        for (menuItem in menuItems) {
+            val name: String = (menuItem.findElement(By.tagName("strong")) as WebElement).text
+            val price: String = (menuItem.findElement(By.tagName("em")) as WebElement).text
+            Timber.e("테스트 메뉴:$name: 가격:$price")
+        }
+
+        // WebDriver 종료
+        driver.quit()
+    }
+
+    private fun selenium() = runBlocking {
+        withContext(Dispatchers.IO) {
+            val driverPath =
+                "C:/Users/zdrgn/AppData/Local/chrome_driver/chromedriver_win32/chromedriver.exe"
+            System.setProperty("webdriver.chrome.driver", driverPath)
+            val driver: WebDriver = ChromeDriver()
+            driver.get("https://map.naver.com/v5/?c=13.63,0,0,0,dh&isCorrectAnswer=true")
+            val searchBox: WebElement = driver.findElement(By.className("input_search"))
+            searchBox.sendKeys("소호정 청계산점")
+            searchBox.submit()
+            val restaurantLink: WebElement =
+                driver.findElement(By.xpath("//a[contains(@href,'place') and contains(@href,'menu')][1]"))
+            restaurantLink.click()
+            val menuSection: WebElement =
+                driver.findElement(By.xpath("//section[contains(@class,'_3mNZz') and contains(@class,'_1aA5j')]"))
+            val menuItems: List<WebElement> = menuSection.findElements(By.tagName("li"))
+            for (menuItem in menuItems) {
+                val name: String = menuItem.findElement(By.tagName("strong")).text
+                val price: String = menuItem.findElement(By.tagName("em")).text
+                Timber.e("테스트 메뉴:$name: 가격:$price")
+            }
+            driver.quit()
+        }
+    }
+     */
 
     //TODO 권한 수정
     private fun initView() {
@@ -90,7 +156,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 perms = perms
             )
             Snackbar.make(requireView(), "권한이 필요합니다.", Snackbar.LENGTH_LONG).show()
-            //TODO 앱 종료
+            requireActivity().finish()
         }
     }
 
@@ -145,7 +211,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         )
         val toMap = MainFragmentDirections.actionMainFragmentToMapFragment(result, route)
         requireView().findNavController().navigate(toMap)
-
     }
 
 }

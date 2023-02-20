@@ -2,6 +2,7 @@ package com.example.foulette.ui.map
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import com.bumptech.glide.Glide
 import com.example.foulette.BuildConfig
 import com.example.foulette.FouletteApplication
 import com.example.foulette.R
@@ -112,6 +114,8 @@ class MapFragment :
             val place = response.place
             val metada = place.photoMetadatas
             if (metada == null || metada.isEmpty()) {
+                val defaultImage = BitmapFactory.decodeResource(resources, R.drawable.no_img)
+                setBottomSheet(defaultImage)
                 return@addOnSuccessListener
             }
             val photoMetadata = metada.first()
@@ -136,11 +140,12 @@ class MapFragment :
 
     private fun setBottomSheet(bitmap: Bitmap) {
         binding.btmSheetMap.apply {
-            val adapter = BottomSheetPhotoAdapter()
-            btmSheetRcv.layoutManager = GridLayoutManager(this.btmSheetRcv.context, 2)
-            adapter.submitList(selectedRestaurant.photos)
-            Timber.e("IMAGE : ${selectedRestaurant.photos?.size}")
-            btmSheetImg.setImageBitmap(bitmap)
+            if (bitmap == null) {
+                btmSheetImg.setImageResource(R.drawable.no_img)
+            } else {
+                btmSheetImg.setImageBitmap(bitmap)
+            }
+
             btmSheetTitle.text = selectedRestaurant.name
             val distance =
                 if (routeData.totalDistance / 1000 > 0) "${routeData.totalDistance / 1000} Km"
@@ -148,9 +153,7 @@ class MapFragment :
             btmSheetDistance.text = "예상거리 : 약 $distance"
             btmSheetTime.text = "예상시간 : 약 ${routeData.totalTime / 60} 분"
             val price = listOf("무료", "저렴함", "보통", "조금 비쌈", "매우 비쌈")
-            if (selectedRestaurant.price_level != null ){
-                btmSheetPrice.text = "가격대 : ${price[selectedRestaurant.price_level!!]}"
-            }
+            btmSheetPrice.text = "가격대 : ${price[selectedRestaurant.price_level!!]}"
             btmSheetRate.rating = selectedRestaurant.rate!!.toFloat()
 
         }

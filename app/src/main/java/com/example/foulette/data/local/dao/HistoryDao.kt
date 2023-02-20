@@ -13,7 +13,6 @@ interface HistoryDao {
 
     @Query("SELECT * from history ORDER BY date DESC")
     fun getAll(): Flow<List<HistoryEntity>>
-    //Flow는 suspend 할 필요 X
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveHistory(historyEntity: HistoryEntity)

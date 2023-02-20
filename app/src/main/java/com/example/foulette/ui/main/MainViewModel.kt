@@ -20,8 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getRestaurantListUseCase: GetRestaurantListUseCase,
-    private val getTmapRouteUseCase: GetTmapRouteUseCase,
-    private val getMenuUseCase: GetMenuUseCase
+    private val getTmapRouteUseCase: GetTmapRouteUseCase
 ) : ViewModel() {
 
     private val _restaurantList = MutableStateFlow<List<RestaurantResult>>(emptyList())
@@ -36,7 +35,7 @@ class MainViewModel @Inject constructor(
     fun getRestaurant(myLoc: String) {
         viewModelScope.launch {
             _restaurantList.emit(getRestaurantListUseCase.invoke(myLoc))
-            Timber.e("getRestaurant")
+
         }
     }
 
@@ -44,7 +43,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             _rouletteState.emit(state)
         }
-        Timber.e("roulette : $state")
+
     }
 
     fun getRoute(
@@ -70,13 +69,5 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getMenu(url: String) {
-        viewModelScope.launch {
-            val menus = getMenuUseCase(url)
-            for (menu in menus) {
-                Timber.e("메뉴 테스트 " + menu.menu_name)
-            }
-        }
-    }
 
 }
