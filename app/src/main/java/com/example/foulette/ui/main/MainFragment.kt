@@ -1,12 +1,14 @@
 package com.example.foulette.ui.main
 
 import android.Manifest
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 
 import android.location.Location
 import android.os.Bundle
 import android.view.View
+import android.view.animation.LinearInterpolator
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -125,6 +127,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private fun initView() {
         binding.apply {
             btnSearchFromMylocation.setOnClickListener {
+                progress.visibility = View.VISIBLE
+                val animator = ObjectAnimator.ofInt(progress, "progress", 0, 100)
+                animator.duration = 2000 // 2초
+                animator.interpolator = LinearInterpolator()
+                animator.start()
                 setData()
             }
             fabHistory.setOnClickListener {
@@ -204,6 +211,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     }
 
     private fun playRoulette() {
+        binding.progress.visibility = View.GONE
         viewModel.setRouletteState(RouletteState.playing)
         RouletteDialog().show(
             requireActivity().supportFragmentManager,
