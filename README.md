@@ -6,6 +6,8 @@ Summary
 구글지도를 사용해서 근처의 맛집들을 검색후 그중 하나를 선택하여
 경로를 보여주고 이를 히스토리에 저장해줍니다.
 
+https://play.google.com/store/apps/details?id=yellowc.example.foulette
+
 기술 스택
 - Android-Kotlin
 - MVVM & AAC
