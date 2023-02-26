@@ -1,4 +1,6 @@
 # Foulette
+![제목 없음](https://user-images.githubusercontent.com/55780312/221407008-74ae4fd9-79e6-47bf-9882-420752265aed.png)
+
 
 Summary
 현재 위치를 중심으로 음식점을 하나 추천하는 어플리케이션
