@@ -55,19 +55,17 @@ Structure
 
 기능🔧
 
-![KakaoTalk_20230220_145209640_01](https://user-images.githubusercontent.com/55780312/221406045-c4ec1fa6-8d96-4d4c-9d74-154373ebeef4.jpg)
+![KakaoTalk_20230220_145209640_01](https://user-images.githubusercontent.com/55780312/221406366-1c0b98f1-3b95-4f94-b88b-6e122076f7d8.jpg)
 
 - 현재 내 위치에서 1Km 근방의 음식점 검색
 
-![KakaoTalk_20230220_145209640_02](https://user-images.githubusercontent.com/55780312/221406053-496291c3-9aae-48d8-8709-9197ba7d992f.jpg)
+![KakaoTalk_20230220_145209640_02](https://user-images.githubusercontent.com/55780312/221406373-4edddb84-e6c6-4c2b-b914-b79aeff3cff1.jpg)
+
 - 해당 음식점 까지 최단 도보 길찾기 기능 제공
 
-![KakaoTalk_20230220_145209640_03](https://user-images.githubusercontent.com/55780312/221406057-d8d0e642-a828-43e6-851a-62ed36ac8e01.jpg)
+![KakaoTalk_20230220_145209640_03](https://user-images.githubusercontent.com/55780312/221406382-c7b50aed-bc9f-4918-a643-fbbc3d91e0a1.jpg)
 
 - 찾은 음식점의 정보 저장
-
-
-![KakaoTalk_20230220_145209640_02](https://user-images.githubusercontent.com/55780312/221406053-496291c3-9aae-48d8-8709-9197ba7d992f.jpg)
 
 
 
