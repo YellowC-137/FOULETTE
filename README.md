@@ -1,6 +1,13 @@
 # Foulette
 ![제목 없음](https://user-images.githubusercontent.com/55780312/221407008-74ae4fd9-79e6-47bf-9882-420752265aed.png)
 
+[TODO Update]
+- 지도에서 특정 위치 지정해서 해당 위치로 부터 검색
+- 메뉴판 크롤링
+- Binding Adpater
+- 홈화면 UI
+- 검색 음식점 갯수 증가
+
 
 Summary
 현재 위치를 중심으로 음식점을 하나 추천하는 어플리케이션
