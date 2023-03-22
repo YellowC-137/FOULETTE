@@ -31,17 +31,6 @@ object NetworkModule {
         ignoreUnknownKeys = true
         coerceInputValues = true
     }
-/*
-    val polyModule = SerializersModule {
-        polymorphic(Geo::class) {
-            subclass(LineString::class)
-            subclass(Point::class)
-        }
-    }
-    */
-
-
-
 
     //Retrofit
     @Qualifier

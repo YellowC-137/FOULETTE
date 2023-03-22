@@ -96,8 +96,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(R.layout.fragment_h
                         for (routes in it) {
                             route = routes
                         }
-                        val toMap =
-                            yellowc.example.foulette.ui.history.HistoryFragmentDirections.actionHistoryFragmentToMapFragment(
+                        val toMap = HistoryFragmentDirections.actionHistoryFragmentToMapFragment(
                                 selectedRestaurant,
                                 route
                             )

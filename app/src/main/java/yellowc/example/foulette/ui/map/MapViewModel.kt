@@ -19,4 +19,6 @@ class MapViewModel @Inject constructor(
             saveHistoryUseCase.invoke(historyResult)
         }
     }
+
+
 }

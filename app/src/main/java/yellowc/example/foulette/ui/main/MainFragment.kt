@@ -33,7 +33,6 @@ import java.security.SecureRandom
 import kotlin.properties.Delegates
 
 
-
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private val viewModel: MainViewModel by viewModels()
